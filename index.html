@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> Ludo Crown</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>🎲 Ludo Crown</h1>
+
+    <div class="game-container">
+
+        <!-- Ludo Board -->
+
+        <div id="board" class="board">
+
+            <!-- JavaScript will create the board here -->
+
+        </div>
+
+
+        <!-- Game Controls -->
+
+        <div class="controls">
+
+           <div class="player-dice-container">
+
+        <div id="dice">⚀</div>
+
+</div>
+
+            <button id="rollButton">Roll Dice</button>
+
+            <p id="message">
+                RED player's turn
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+<!-- ==========================================
+     👑 LUDO CROWN VICTORY SCREEN
+     ========================================== -->
+
+<div id="victoryScreen" class="victory-screen">
+
+    <div class="victory-box">
+
+        <div class="victory-crown">
+            👑
+        </div>
+
+        <h1>LUDO CROWN</h1>
+
+        <h2 id="winnerText">
+            🏆 RED WINS! 🏆
+        </h2>
+
+        <p>
+            Congratulations!
+        </p>
+
+        <button id="playAgainButton" onclick="playAgain()">
+    🎮 PLAY AGAIN
+</button>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
