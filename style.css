@@ -1,3 +1,671 @@
+/* ==========================================
+   👑 LUDO CROWN - COMPLETE BOARD CSS
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    background: #171717;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+
+/* ==========================================
+   GAME TITLE
+   ========================================== */
+
+h1 {
+    margin: 15px 0 10px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+
+/* ==========================================
+   BOARD
+   ========================================== */
+
+#board {
+    width: min(92vw, 600px);
+    height: min(92vw, 600px);
+
+    margin: 20px auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+
+    border: 4px solid #111;
+
+    background: white;
+
+    position: relative;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ==========================================
+   EVERY CELL
+   ========================================== */
+
+.cell {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+
+    border: 1px solid rgba(0, 0, 0, 0.35);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #ffffff;
+
+    overflow: visible;
+}
+
+
+/* ==========================================
+   🟥 RED HOME
+   ========================================== */
+
+.red-home {
+    background:
+        linear-gradient(
+            135deg,
+            #ff5148,
+            #df211b
+        ) !important;
+}
+
+
+/* ==========================================
+   🟩 GREEN HOME
+   ========================================== */
+
+.green-home {
+    background:
+        linear-gradient(
+            135deg,
+            #4ade80,
+            #16a34a
+        ) !important;
+}
+
+
+/* ==========================================
+   🟨 YELLOW HOME
+   ========================================== */
+
+.yellow-home {
+    background:
+        linear-gradient(
+            135deg,
+            #facc15,
+            #eab308
+        ) !important;
+}
+
+
+/* ==========================================
+   🟦 BLUE HOME
+   ========================================== */
+
+.blue-home {
+    background:
+        linear-gradient(
+            135deg,
+            #38bdf8,
+            #0284c7
+        ) !important;
+}
+
+
+/* ==========================================
+   NORMAL PATH
+   ========================================== */
+
+.path {
+    background: #ffffff !important;
+}
+
+
+/* ==========================================
+   VISIBLE PLAYING PATH
+   ========================================== */
+
+.ludo-path {
+    background: #ffffff !important;
+}
+
+
+/* ==========================================
+   🟥 RED HOME PATH
+   ========================================== */
+
+.red-path {
+    background:
+        linear-gradient(
+            90deg,
+            #ff4b45,
+            #ef2923
+        ) !important;
+}
+
+
+/* ==========================================
+   🟩 GREEN HOME PATH
+   ========================================== */
+
+.green-path {
+    background:
+        linear-gradient(
+            180deg,
+            #4ade80,
+            #22c55e
+        ) !important;
+}
+
+
+/* ==========================================
+   🟨 YELLOW HOME PATH
+   ========================================== */
+
+.yellow-path {
+    background:
+        linear-gradient(
+            90deg,
+            #facc15,
+            #eab308
+        ) !important;
+}
+
+
+/* ==========================================
+   🟦 BLUE HOME PATH
+   ========================================== */
+
+.blue-path {
+    background:
+        linear-gradient(
+            180deg,
+            #38bdf8,
+            #0284c7
+        ) !important;
+}
+
+
+/* ==========================================
+   👑 CENTER
+   ========================================== */
+
+.center {
+    background: white !important;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: clamp(18px, 4vw, 30px);
+
+    z-index: 1;
+}
+
+
+/* ==========================================
+   👑 CROWN
+   ========================================== */
+
+.center {
+    text-shadow:
+        0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ==========================================
+   🛡️ SAFE SQUARE
+   ========================================== */
+
+.safe-square {
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 0%,
+            #ffffff 55%,
+            #f0f0f0 56%,
+            #ffffff 100%
+        ) !important;
+}
+
+
+/* ==========================================
+   SAFE SQUARE GRAPHIC
+   ========================================== */
+
+.safe-square::after {
+    content: "🛡️";
+
+    position: absolute;
+
+    font-size: clamp(12px, 2.2vw, 20px);
+
+    opacity: 0.9;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* ==========================================
+   TOKEN
+   ========================================== */
+
+.token {
+    width: 65%;
+    height: 65%;
+
+    min-width: 16px;
+    min-height: 16px;
+
+    max-width: 34px;
+    max-height: 34px;
+
+    border-radius: 50%;
+
+    position: relative;
+
+    z-index: 10;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 3px solid white;
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.55);
+}
+
+
+/* ==========================================
+   🔴 RED TOKEN
+   ========================================== */
+
+.red-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #ff8a80,
+            #f52222 45%,
+            #a80000 100%
+        );
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 2px 6px rgba(120, 0, 0, 0.8);
+}
+
+
+/* ==========================================
+   🟢 GREEN TOKEN
+   ========================================== */
+
+.green-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #86efac,
+            #16a34a 45%,
+            #065f2b 100%
+        );
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 2px 6px rgba(0, 80, 30, 0.8);
+}
+
+
+/* ==========================================
+   🟡 YELLOW TOKEN
+   ========================================== */
+
+.yellow-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #fff59d,
+            #facc15 45%,
+            #a16207 100%
+        );
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 2px 6px rgba(100, 70, 0, 0.8);
+}
+
+
+/* ==========================================
+   🔵 BLUE TOKEN
+   ========================================== */
+
+.blue-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #93c5fd,
+            #0284c7 45%,
+            #064e78 100%
+        );
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 2px 6px rgba(0, 50, 100, 0.8);
+}
+
+
+/* ==========================================
+   ✨ MOVABLE TOKEN
+   ========================================== */
+
+.movable-token {
+    animation: tokenGlow 0.8s infinite alternate;
+
+    transform: scale(1.12);
+
+    z-index: 30;
+}
+
+
+@keyframes tokenGlow {
+
+    from {
+        filter: brightness(1);
+
+        box-shadow:
+            0 0 5px 2px white,
+            0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    to {
+        filter: brightness(1.35);
+
+        box-shadow:
+            0 0 12px 5px white,
+            0 0 20px 7px rgba(255, 255, 255, 0.7);
+    }
+
+}
+
+
+/* ==========================================
+   🎯 SELECTED TOKEN
+   ========================================== */
+
+.selected-token {
+    transform: scale(1.2);
+
+    z-index: 50;
+
+    animation: selectedTokenGlow 0.6s infinite alternate;
+}
+
+
+@keyframes selectedTokenGlow {
+
+    from {
+        box-shadow:
+            0 0 8px 3px #ffffff;
+    }
+
+    to {
+        box-shadow:
+            0 0 16px 7px #ffffff;
+    }
+
+}
+
+
+/* ==========================================
+   🎲 MAIN DICE
+   ========================================== */
+
+#dice {
+    width: 90px;
+    height: 90px;
+
+    margin: 15px auto;
+
+    background: white;
+
+    color: #111;
+
+    border-radius: 15px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 50px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ==========================================
+   🎲 ROLL BUTTON
+   ========================================== */
+
+#rollButton {
+    padding: 14px 35px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #ff9800;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.3);
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+
+#rollButton:hover {
+    background: #ffb300;
+    transform: scale(1.04);
+}
+
+
+#rollButton:active {
+    transform: scale(0.96);
+}
+
+
+#rollButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   💬 MESSAGE
+   ========================================== */
+
+#message {
+    margin: 18px auto;
+
+    max-width: 90vw;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    min-height: 30px;
+}
+
+
+/* ==========================================
+   🏆 VICTORY SCREEN
+   ========================================== */
+
+#victoryScreen {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, 0.82);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000;
+}
+
+
+#victoryScreen > * {
+    max-width: 90%;
+}
+
+
+/* ==========================================
+   📱 MOBILE
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    h1 {
+        font-size: 27px;
+        margin-top: 10px;
+    }
+
+
+    #board {
+        width: 95vw;
+        height: 95vw;
+
+        margin-top: 10px;
+
+        border-width: 3px;
+    }
+
+
+    .cell {
+        border-width: 1px;
+    }
+
+
+    .token {
+        width: 60%;
+        height: 60%;
+
+        min-width: 12px;
+        min-height: 12px;
+
+        border-width: 2px;
+    }
+
+
+    .safe-square::after {
+        font-size: 11px;
+    }
+
+
+    #dice {
+        width: 90px;
+        height: 90px;
+
+        font-size: 48px;
+    }
+
+
+    #rollButton {
+        font-size: 17px;
+
+        padding: 13px 30px;
+    }
+
+
+    #message {
+        font-size: 15px;
+
+        padding: 0 10px;
+    }
+
+}
+
+
+/* ==========================================
+   📱 VERY SMALL PHONES
+   ========================================== */
+
+@media (max-width: 380px) {
+
+    #board {
+        width: 94vw;
+        height: 94vw;
+    }
+
+
+    .token {
+        min-width: 10px;
+        min-height: 10px;
+    }
+
+
+    #dice {
+        width: 75px;
+        height: 75px;
+
+        font-size: 40px;
+    }
+
+}
+
 ```css
 /* ==========================================
    👑 LUDO CROWN — PREMIUM BOARD DESIGN
