@@ -1104,157 +1104,109 @@ async function moveToken(
     }
 
 
-    // ======================================
-    // MOVE ONE STEP AT A TIME
-    // ======================================
+    // ==================================
+// MOVE ONE STEP AT A TIME
+// ==================================
 
-    for (
-        let i = 0;
-        i < steps;
-        i++
+for (
+    let i = 0;
+    i < steps;
+    i++
+) {
+
+    // ==================================
+    // EXACT CROWN CHECK
+    // ==================================
+
+    if (
+        token.position >= 52
     ) {
 
-
-        // ==================================
-        // EXACT CROWN CHECK
-        // ==================================
+        const remaining =
+            57 - token.position;
 
         if (
-            token.position >= 52
+            remaining <= 0
         ) {
 
-            const remaining =
-                57 - token.position;
+            token.position =
+                57;
 
-            if (
-                remaining <= 0
-            ) {
-
-                token.position =
-                    57;
-
-                break;
-
-            }
-
-            if (
-                steps - i >
-                remaining
-            ) {
-
-                message.textContent =
-                    "You need an exact roll to reach the Crown.";
-
-                return false;
-
-            }
+            break;
 
         }
 
-        // ==================================
-        // MOVE TOKEN POSITION
-        // ==================================
+        if (
+            steps - i >
+            remaining
+        ) {
 
-        token.position++;
+            message.textContent =
+                "You need an exact roll to reach the Crown.";
+
+            return false;
+
+        }
+
+    }
+
+
+    // ==================================
+    // MOVE TOKEN POSITION
+    // ==================================
+
+    token.position++;
+
+
+    // ==================================
+    // ENTER HOME PATH
+    // ==================================
+
+    if (
+        token.position >= 52
+    ) {
+
+        token.inHomePath =
+            true;
+
+        const homeIndex =
+            token.position - 52;
+
 
         // ==================================
-        // ENTER HOME PATH
+        // CROWN
         // ==================================
 
         if (
-            token.position >= 52
+            homeIndex >=
+            homePaths[color].length
         ) {
+
+            token.position =
+                57;
 
             token.inHomePath =
                 true;
 
+            const crownCellIndex =
+                7 * 15 + 7;
 
-            const homeIndex =
-                token.position - 52;
-
-
-            // ==================================
-            // CROWN
-            // ==================================
-
-            if (
-                homeIndex >=
-                homePaths[color].length
-            ) {
-
-                token.position =
-                    57;
-
-                token.inHomePath =
-                    true;
-
-
-                const crownCellIndex =
-                    7 * 15 + 7;
-
-
-                cells[
-                    crownCellIndex
-                ].appendChild(
-                    tokenElement
-                );
-
-
-                message.textContent =
-                    "🏆 " +
-                    color +
-                    " Token " +
-                    (number + 1) +
-                    " reached the Crown! 👑";
-
-
-                checkWinner(color);
-
-
-                await wait(500);
-
-                continue;
-
-            }
-
-
-            // ==================================
-            // HOME PATH CELL
-            // ==================================
-
-            const homeCell =
-                homePaths[color][
-                    homeIndex
-                ];
-
-
-            const row =
-                homeCell[0];
-
-            const col =
-                homeCell[1];
-
-
-            const cellIndex =
-                row * 15 + col;
-
-
-            cells[cellIndex].appendChild(
+            cells[
+                crownCellIndex
+            ].appendChild(
                 tokenElement
             );
 
-
             message.textContent =
+                "🏆 " +
                 color +
                 " Token " +
                 (number + 1) +
-                " entering home path → " +
-                (homeIndex + 1) +
-                "/" +
-                homePaths[color].length;
+                " reached the Crown! 👑";
 
+            checkWinner(color);
 
-            await wait(250);
+            await wait(500);
 
             continue;
 
@@ -1262,45 +1214,78 @@ async function moveToken(
 
 
         // ==================================
-        // OUTER TRACK
+        // HOME PATH CELL
         // ==================================
 
-        const globalPosition =
-            (
-                startPosition[color] +
-                token.position
-            ) % 52;
-
+        const homeCell =
+            homePaths[color][
+                homeIndex
+            ];
 
         const row =
-            path[globalPosition][0];
+            homeCell[0];
 
         const col =
-            path[globalPosition][1];
-
+            homeCell[1];
 
         const cellIndex =
             row * 15 + col;
-
 
         cells[cellIndex].appendChild(
             tokenElement
         );
 
-
         message.textContent =
             color +
             " Token " +
             (number + 1) +
-            " → " +
-            (i + 1) +
+            " entering home path → " +
+            (homeIndex + 1) +
             "/" +
-            steps;
-
+            homePaths[color].length;
 
         await wait(250);
 
+        continue;
+
     }
+
+
+    // ==================================
+    // OUTER TRACK
+    // ==================================
+
+    const globalPosition =
+        (
+            startPosition[color] +
+            token.position
+        ) % 52;
+
+    const row =
+        path[globalPosition][0];
+
+    const col =
+        path[globalPosition][1];
+
+    const cellIndex =
+        row * 15 + col;
+
+    cells[cellIndex].appendChild(
+        tokenElement
+    );
+
+    message.textContent =
+        color +
+        " Token " +
+        (number + 1) +
+        " → " +
+        (i + 1) +
+        "/" +
+        steps;
+
+    await wait(250);
+
+}
 
 
     tokenElement.classList.remove(
@@ -1831,30 +1816,219 @@ rollButton.onclick =
 
 
         // ======================================
-        // PLAYER MUST SELECT TOKEN
-        // ======================================
+// FIND ALL MOVABLE TOKENS
+// ======================================
 
-        waitingForTokenSelection =
-            true;
+const movableTokens = [];
 
+for (let i = 0; i < 4; i++) {
 
-        selectedToken =
-            null;
-
-
-        highlightMovableTokens(
+    if (
+        canTokenMove(
             color,
+            i,
+            number
+        )
+    ) {
+
+        movableTokens.push(i);
+
+    }
+
+}
+
+
+// ======================================
+// ONLY ONE TOKEN CAN MOVE
+// ======================================
+
+if (
+    movableTokens.length === 1 &&
+    number !== 6
+) {
+    const automaticToken =
+        movableTokens[0];
+
+    waitingForTokenSelection =
+        false;
+
+    selectedToken =
+        automaticToken;
+
+    clearMovableTokens();
+
+
+    const tokenElement =
+        document.querySelector(
+            `.token[data-color="${color}"][data-number="${automaticToken}"]`
+        );
+
+
+    if (tokenElement) {
+
+        tokenElement.classList.add(
+            "selected-token"
+        );
+
+    }
+
+
+    message.textContent =
+        color +
+        " Token " +
+        (automaticToken + 1) +
+        " moves automatically!";
+
+
+    // ==================================
+    // MOVE AUTOMATIC TOKEN
+    // ==================================
+
+    const moved =
+        await moveToken(
+            color,
+            automaticToken,
             number
         );
 
 
+    if (!moved) {
+
+        selectedToken =
+            null;
+
+        waitingForTokenSelection =
+            false;
+
+        nextPlayer();
+
+        rollButton.disabled =
+            false;
+
+        return;
+
+    }
+
+
+    if (tokenElement) {
+
+        tokenElement.classList.remove(
+            "selected-token"
+        );
+
+    }
+
+
+    selectedToken =
+        null;
+
+    clearMovableTokens();
+
+
+    // ==================================
+    // CHECK WINNER
+    // ==================================
+
+    if (gameOver) {
+
+        return;
+
+    }
+
+
+    // ==================================
+    // CAPTURE CHECK
+    // ==================================
+
+    const captured =
+        checkCapture(
+            color,
+            automaticToken
+        );
+
+
+    // ==================================
+    // SIX = SAME PLAYER ROLLS AGAIN
+    // ==================================
+
+    if (number === 6) {
+
+        waitingForTokenSelection =
+            false;
+
         message.textContent =
             color +
-            " rolled " +
-            number +
-            ". ✨ Select a glowing token.";
+            " rolled 6! 🎲 Roll again.";
 
-    };
+        rollButton.disabled =
+            false;
+
+        return;
+
+    }
+
+
+    // ==================================
+    // CAPTURE = EXTRA TURN
+    // ==================================
+
+    if (captured) {
+
+        waitingForTokenSelection =
+            false;
+
+        message.textContent =
+            "⚔️ " +
+            color +
+            " captured a token! Roll again.";
+
+        rollButton.disabled =
+            false;
+
+        return;
+
+    }
+
+
+    // ==================================
+    // NORMAL TURN
+    // ==================================
+
+    waitingForTokenSelection =
+        false;
+
+    nextPlayer();
+
+    rollButton.disabled =
+        false;
+
+    return;
+
+}
+
+
+// ======================================
+// MORE THAN ONE TOKEN CAN MOVE
+// ======================================
+
+waitingForTokenSelection =
+    true;
+
+selectedToken =
+    null;
+
+
+highlightMovableTokens(
+    color,
+    number
+);
+
+
+message.textContent =
+    color +
+    " rolled " +
+    number +
+    ". ✨ Select a glowing token.";
 
 
 // ==========================================
