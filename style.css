@@ -1,619 +1,691 @@
+```css
+/* ==========================================
+   👑 LUDO CROWN — PREMIUM BOARD DESIGN
+   ========================================== */
+
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 body {
-    font-family: Arial, sans-serif;
-
-    background: #222;
-
-    color: white;
-
+    margin: 0;
     min-height: 100vh;
-
+    background:
+        radial-gradient(circle at top, #21133d 0%, #090611 55%, #030207 100%);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
-    padding: 25px;
+    overflow-x: hidden;
 }
+
+
+/* ==========================================
+   GAME TITLE
+   ========================================== */
 
 h1 {
-    margin-bottom: 20px;
+    margin: 20px 0 12px;
+
+    font-size: clamp(30px, 5vw, 58px);
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    color: #fff4c2;
+
+    text-shadow:
+        0 2px 0 #9b5b00,
+        0 4px 0 #713900,
+        0 0 10px #ffcc33,
+        0 0 25px rgba(255, 190, 0, 0.7);
 }
 
 
-/* =========================
-   GAME CONTAINER
-   ========================= */
+/* ==========================================
+   BOARD OUTER FRAME
+   ========================================== */
 
-.game-container {
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    gap: 20px;
-}
-
-
-/* =========================
-   LUDO BOARD
-   ========================= */
-
-.board {
-
-    width: 600px;
-
-    height: 600px;
+#board {
+    width: min(92vw, 700px);
+    height: min(92vw, 700px);
 
     display: grid;
 
     grid-template-columns: repeat(15, 1fr);
-
     grid-template-rows: repeat(15, 1fr);
 
-    background: white;
+    padding: 8px;
 
-    border: 6px solid white;
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff2a6,
+            #d99400 30%,
+            #ffca28 50%,
+            #9c5b00 75%,
+            #ffe16b
+        );
+
+    border: 3px solid #ffd75a;
 
     box-shadow:
-        0 0 20px rgba(0, 0, 0, 0.5);
+        0 0 0 3px #6d3b00,
+        0 0 20px rgba(255, 190, 0, 0.7),
+        0 15px 45px rgba(0, 0, 0, 0.8);
+
+    position: relative;
 }
 
 
-/* =========================
-   BOARD CELLS
-   ========================= */
+/* ==========================================
+   CELLS
+   ========================================== */
 
 .cell {
-
-    border: 1px solid #aaa;
+    position: relative;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    position: relative;
+    min-width: 0;
+    min-height: 0;
+
+    border: 1px solid rgba(50, 40, 40, 0.45);
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #eeeeee
+        );
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 
-/* =========================
-   PLAYER HOMES
-   ========================= */
+/* ==========================================
+   RED HOME
+   ========================================== */
 
 .red-home {
-    background: #e53935;
+    background:
+        linear-gradient(
+            145deg,
+            #ff554d,
+            #c91f25
+        );
+
+    box-shadow:
+        inset 0 0 15px rgba(255, 255, 255, 0.15);
 }
+
+
+/* ==========================================
+   GREEN HOME
+   ========================================== */
 
 .green-home {
-    background: #43a047;
+    background:
+        linear-gradient(
+            145deg,
+            #43df79,
+            #0ba84b
+        );
+
+    box-shadow:
+        inset 0 0 15px rgba(255, 255, 255, 0.15);
 }
+
+
+/* ==========================================
+   BLUE HOME
+   ========================================== */
 
 .blue-home {
-    background: #1e88e5;
+    background:
+        linear-gradient(
+            145deg,
+            #35a9ff,
+            #0875d1
+        );
+
+    box-shadow:
+        inset 0 0 15px rgba(255, 255, 255, 0.15);
 }
+
+
+/* ==========================================
+   YELLOW HOME
+   ========================================== */
 
 .yellow-home {
-    background: #fdd835;
+    background:
+        linear-gradient(
+            145deg,
+            #ffd936,
+            #e5a900
+        );
+
+    box-shadow:
+        inset 0 0 15px rgba(255, 255, 255, 0.15);
 }
 
 
-/* =========================
-   PLAYING PATH
-   ========================= */
+/* ==========================================
+   OUTER PATH
+   ========================================== */
 
-.path {
-    background: white;
+.path,
+.ludo-path {
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #e9e9e9
+        );
 }
 
 
-/* =========================
+/* ==========================================
+   HOME PATHS
+   ========================================== */
+
+.red-path {
+    background:
+        linear-gradient(
+            145deg,
+            #ff625a,
+            #d52a30
+        );
+}
+
+.green-path {
+    background:
+        linear-gradient(
+            145deg,
+            #55e47d,
+            #13b653
+        );
+}
+
+.yellow-path {
+    background:
+        linear-gradient(
+            145deg,
+            #ffe34d,
+            #efb500
+        );
+}
+
+.blue-path {
+    background:
+        linear-gradient(
+            145deg,
+            #43b1ff,
+            #087bd8
+        );
+}
+
+
+/* ==========================================
    CENTER
-   ========================= */
+   ========================================== */
 
 .center {
-    background: white;
-
-    font-size: 30px;
-
-    border: 2px solid #222;
-}
-
-
-/* =========================
-   HOME TOKEN AREAS
-   ========================= */
-
-.home-token-area {
-
-    width: 75%;
-
-    height: 75%;
-
-    border-radius: 15px;
-
-    background: rgba(255, 255, 255, 0.35);
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    grid-template-rows: 1fr 1fr;
-
-    gap: 8px;
-
-    padding: 12px;
-}
-
-
-/* =========================
-   TOKENS
-   ========================= */
-
-.token {
-
-    width: 25px;
-
-    height: 25px;
-
-    border-radius: 50%;
-
-    border: 3px solid white;
+    background:
+        radial-gradient(
+            circle,
+            #fff8d6 0%,
+            #ffd43b 35%,
+            #d98a00 75%,
+            #8b4c00 100%
+        );
 
     box-shadow:
-        0 2px 5px rgba(0, 0, 0, 0.5);
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 
-/* =========================
-   DICE AREA
-   ========================= */
-
-.controls {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-
-#dice {
-
-    width: 90px;
-
-    height: 90px;
-
-    background: white;
-
-    color: black;
-
-    border-radius: 15px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 55px;
-
-    box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.4);
-}
-
-
-button {
-
-    padding: 12px 25px;
-
-    font-size: 18px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    background: #ff9800;
-
-    color: white;
-
-    font-weight: bold;
-}
-
-
-button:hover {
-
-    background: #f57c00;
-}
-
-
-#message {
-
-    font-size: 18px;
-
-    font-weight: bold;
-}
 /* ==========================================
-   LUDO CROWN PATH
+   CROWN
    ========================================== */
 
-.ludo-path {
-
-    background: white;
-
-    border: 2px solid #333;
-
-    color: #555;
-
-    font-size: 12px;
-
-    font-weight: bold;
-
+.center:nth-child(113) {
+    font-size: clamp(20px, 4vw, 45px);
 }
+
+
 /* ==========================================
-   LUDO CROWN TOKENS
-   ========================================== */
-
-.token {
-
-    width: 32px;
-
-    height: 32px;
-
-    border-radius: 50%;
-
-    border: 4px solid white;
-
-    box-shadow:
-        0 3px 7px rgba(0, 0, 0, 0.5);
-
-    z-index: 10;
-
-}
-
-
-/* RED TOKEN */
-
-.red-token {
-
-    background: #c62828;
-
-}
-
-
-/* GREEN TOKEN */
-
-.green-token {
-
-    background: #1b5e20;
-
-}
-
-
-/* YELLOW TOKEN */
-
-.yellow-token {
-
-    background: #f9a825;
-
-}
-
-
-/* BLUE TOKEN */
-
-.blue-token {
-
-    background: #1565c0;
-
-}
-/* ==========================================
-   TOKEN CLICK FIX
-   ========================================== */
-
-.token {
-    position: relative;
-    z-index: 10;
-    cursor: pointer;
-    pointer-events: auto;
-}
-/* ==========================================
-   🛡️ SAFE SQUARE
+   SAFE SQUARE
    ========================================== */
 
 .safe-square {
-    background: #fff3cd !important;
-    position: relative;
+    background:
+        linear-gradient(
+            145deg,
+            #fff3a3,
+            #ffc400
+        ) !important;
+
+    box-shadow:
+        inset 0 0 8px rgba(255, 180, 0, 0.7),
+        0 0 8px rgba(255, 190, 0, 0.35);
 }
 
 .safe-square::after {
     content: "🛡️";
-    font-size: 18px;
+
+    position: absolute;
+
+    font-size: clamp(11px, 2vw, 22px);
+
+    opacity: 0.9;
+
+    pointer-events: none;
 }
-.safe-square {
-    box-shadow: inset 0 0 0 4px gold;
-}
+
+
 /* ==========================================
-   👑 LUDO CROWN VICTORY SCREEN
+   TOKENS — COMMON
    ========================================== */
 
-.victory-screen {
+.token {
+    width: 72%;
+    height: 72%;
 
-    position: fixed;
+    min-width: 12px;
+    min-height: 12px;
 
-    top: 0;
-    left: 0;
+    border-radius: 50%;
 
-    width: 100%;
-    height: 100%;
+    position: relative;
 
-    display: none;
+    z-index: 20;
 
-    justify-content: center;
-    align-items: center;
+    cursor: pointer;
 
-    background: rgba(0, 0, 0, 0.75);
+    transition:
+        transform 0.18s ease,
+        filter 0.18s ease,
+        box-shadow 0.18s ease;
 
-    z-index: 9999;
-
-}
-
-
-.victory-box {
-
-    width: 380px;
-
-    max-width: 90%;
-
-    padding: 40px 25px;
-
-    text-align: center;
-
-    background: white;
-
-    border-radius: 25px;
+    border: 3px solid rgba(255, 255, 255, 0.9);
 
     box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.5);
+        inset 4px 4px 5px rgba(255, 255, 255, 0.65),
+        inset -5px -6px 8px rgba(0, 0, 0, 0.35),
+        0 4px 7px rgba(0, 0, 0, 0.55);
+}
+
+
+/* ==========================================
+   TOKEN TOP HIGHLIGHT
+   ========================================== */
+
+.token::before {
+    content: "";
+
+    position: absolute;
+
+    width: 30%;
+    height: 30%;
+
+    top: 12%;
+    left: 16%;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.8);
+
+    filter: blur(1px);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================
+   RED TOKEN
+   ========================================== */
+
+.red-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #ffb1ac,
+            #ff302b 35%,
+            #bd0808 75%,
+            #680000
+        );
+
+    box-shadow:
+        inset 4px 4px 5px rgba(255,255,255,0.65),
+        inset -5px -6px 8px rgba(90,0,0,0.6),
+        0 5px 9px rgba(0,0,0,0.55);
+}
+
+
+/* ==========================================
+   GREEN TOKEN
+   ========================================== */
+
+.green-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #b8ffca,
+            #20d75e 35%,
+            #07943b 75%,
+            #004d21
+        );
+
+    box-shadow:
+        inset 4px 4px 5px rgba(255,255,255,0.65),
+        inset -5px -6px 8px rgba(0,70,25,0.6),
+        0 5px 9px rgba(0,0,0,0.55);
+}
+
+
+/* ==========================================
+   BLUE TOKEN
+   ========================================== */
+
+.blue-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #b8e5ff,
+            #239fff 35%,
+            #0668c8 75%,
+            #00356e
+        );
+
+    box-shadow:
+        inset 4px 4px 5px rgba(255,255,255,0.65),
+        inset -5px -6px 8px rgba(0,40,100,0.6),
+        0 5px 9px rgba(0,0,0,0.55);
+}
+
+
+/* ==========================================
+   YELLOW TOKEN
+   ========================================== */
+
+.yellow-token {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #fffbd0,
+            #ffe331 35%,
+            #efa900 75%,
+            #8a5200
+        );
+
+    box-shadow:
+        inset 4px 4px 5px rgba(255,255,255,0.65),
+        inset -5px -6px 8px rgba(100,55,0,0.55),
+        0 5px 9px rgba(0,0,0,0.55);
+}
+
+
+/* ==========================================
+   TOKEN HOVER
+   ========================================== */
+
+.token:hover {
+    transform: scale(1.12);
+
+    filter: brightness(1.15);
+
+    z-index: 50;
+}
+
+
+/* ==========================================
+   MOVABLE TOKEN — LUDO KING STYLE
+   ========================================== */
+
+.movable-token {
+    animation:
+        tokenGlow 0.9s infinite alternate;
+
+    transform: scale(1.08);
+
+    z-index: 100;
+}
+
+
+@keyframes tokenGlow {
+
+    from {
+        filter:
+            brightness(1)
+            drop-shadow(0 0 2px white);
+
+        transform: scale(1.05);
+    }
+
+    to {
+        filter:
+            brightness(1.4)
+            drop-shadow(0 0 12px white)
+            drop-shadow(0 0 20px gold);
+
+        transform: scale(1.15);
+    }
 
 }
 
 
-.victory-crown {
+/* ==========================================
+   SELECTED TOKEN
+   ========================================== */
 
-    font-size: 70px;
+.selected-token {
+    transform: scale(1.18);
 
-    margin-bottom: 10px;
+    filter:
+        brightness(1.35)
+        drop-shadow(0 0 10px white)
+        drop-shadow(0 0 20px gold);
 
+    z-index: 200;
 }
 
 
-.victory-box h1 {
+/* ==========================================
+   DICE AREA
+   ========================================== */
 
-    margin: 5px 0;
+#dice {
+    width: 100px;
+    height: 100px;
 
-    font-size: 32px;
+    margin-top: 22px;
 
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 65px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #d8d8d8
+        );
+
+    color: #151515;
+
+    border-radius: 20px;
+
+    border: 4px solid #ffd54a;
+
+    box-shadow:
+        0 0 0 4px #7c4500,
+        0 8px 20px rgba(0,0,0,0.6),
+        0 0 25px rgba(255,190,0,0.5);
 }
 
 
-.victory-box h2 {
+/* ==========================================
+   ROLL BUTTON
+   ========================================== */
 
-    margin: 20px 0 10px;
+#rollButton {
+    margin-top: 15px;
 
-    font-size: 28px;
-
-}
-
-
-.victory-box p {
-
-    font-size: 18px;
-
-    margin-bottom: 25px;
-
-}
-
-
-#playAgainButton {
-
-    padding: 14px 28px;
+    padding: 15px 38px;
 
     border: none;
 
-    border-radius: 12px;
+    border-radius: 18px;
 
-    font-size: 18px;
+    font-size: 21px;
 
-    font-weight: bold;
+    font-weight: 900;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffbd27,
+            #f27600
+        );
+
+    box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.4),
+        0 5px 0 #9a4100,
+        0 8px 18px rgba(0,0,0,0.5);
 
     cursor: pointer;
 
-}
-/* ==========================================
-   🎲 TOKEN STACKING
-   ========================================== */
-
-.ludo-path .token {
-    position: relative;
-    margin: 1px;
+    transition:
+        transform 0.12s ease,
+        filter 0.12s ease;
 }
 
-.ludo-path .token:nth-child(2) {
-    transform: translate(4px, -4px);
+
+#rollButton:hover {
+    filter: brightness(1.15);
 }
 
-.ludo-path .token:nth-child(3) {
-    transform: translate(-4px, 4px);
-}
 
-.ludo-path .token:nth-child(4) {
-    transform: translate(4px, 4px);
-}
-/* ==========================================
-   🏠 LUDO CROWN COLORED HOME AREAS
-   ========================================== */
+#rollButton:active {
+    transform: translateY(4px);
 
-.red-home {
-    background-color: #e74c3c;
-}
-
-.green-home {
-    background-color: #2ecc71;
-}
-
-.yellow-home {
-    background-color: #f1c40f;
-}
-
-.blue-home {
-    background-color: #3498db;
-}
-
-/* ==========================================
-   🎨 COLORED HOME PATHS
-   ========================================== */
-
-.red-path {
-    background-color: #ef4444;
-}
-
-.green-path {
-    background-color: #22c55e;
-}
-
-.yellow-path {
-    background-color: #facc15;
-}
-
-.blue-path {
-    background-color: #3b82f6;
-}
-
-/* ==========================================
-   🎯 TOKEN STACKING
-   ========================================== */
-
-.cell {
-    position: relative;
-    overflow: hidden;
-}
-
-/* Keep every token inside the same cell */
-.token {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    margin: 0;
-}
-
-/* When multiple tokens are on the same square,
-   keep them stacked exactly on top of each other */
-.cell .token + .token {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* Selected token stays visible above the others */
-.cell .selected-token {
-    z-index: 20;
-}
-
-/* ==========================================
-   ✨ MOVABLE TOKEN HIGHLIGHT
-   ========================================== */
-
-.token.movable-token {
-    animation: movableTokenGlow 0.8s infinite alternate;
-    z-index: 30;
     box-shadow:
-        0 0 5px white,
-        0 0 12px white,
-        0 0 20px currentColor;
-    transform: translate(-50%, -50%) scale(1.18);
+        inset 0 2px 0 rgba(255,255,255,0.3),
+        0 2px 0 #9a4100;
 }
 
-/* Keep stacked tokens visible when highlighted */
-.cell .token.movable-token {
-    z-index: 30;
+
+#rollButton:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
 }
 
-@keyframes movableTokenGlow {
-    from {
-        filter: brightness(1);
-    }
-
-    to {
-        filter: brightness(1.5);
-    }
-}
 
 /* ==========================================
-   ✨ MOVABLE TOKEN GLOW
+   MESSAGE
    ========================================== */
 
-.token.movable-token {
-    animation: movableGlow 0.8s infinite alternate;
+#message {
+    width: min(90vw, 700px);
+
+    margin: 18px 0 25px;
+
+    padding: 14px 20px;
+
+    text-align: center;
+
+    font-size: clamp(15px, 3vw, 21px);
+
+    font-weight: 700;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #142a4b,
+            #071528
+        );
+
+    border: 2px solid #d8a928;
+
+    border-radius: 18px;
+
     box-shadow:
-        0 0 8px 4px gold,
-        0 0 18px 8px rgba(255, 215, 0, 0.8);
-    z-index: 30;
-    cursor: pointer;
+        0 0 15px rgba(255, 190, 0, 0.25),
+        0 8px 20px rgba(0,0,0,0.5);
 }
 
-@keyframes movableGlow {
-    from {
-        box-shadow:
-            0 0 6px 3px gold,
-            0 0 12px 5px rgba(255, 215, 0, 0.6);
-    }
-
-    to {
-        box-shadow:
-            0 0 12px 6px gold,
-            0 0 25px 12px rgba(255, 215, 0, 0.9);
-    }
-}
 
 /* ==========================================
-   📱 MOBILE RESPONSIVE LUDO CROWN
+   VICTORY SCREEN
    ========================================== */
 
-@media (max-width: 700px) {
+#victoryScreen {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(5, 2, 15, 0.88);
+
+    backdrop-filter: blur(8px);
+}
+
+
+#victoryScreen > * {
+    max-width: 90vw;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 600px) {
 
     body {
-        padding: 10px;
-        overflow-x: hidden;
+        padding-top: 5px;
     }
 
     h1 {
-        font-size: 24px;
-        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-bottom: 8px;
     }
 
-    .board {
-        width: 95vw;
-        height: 95vw;
-        max-width: 600px;
-        max-height: 600px;
-        border-width: 3px;
+    #board {
+        width: 94vw;
+        height: 94vw;
+
+        padding: 4px;
+
+        border-radius: 14px;
+
+        border-width: 2px;
     }
 
     .cell {
@@ -621,33 +693,58 @@ button:hover {
     }
 
     .token {
-        width: 22px;
-        height: 22px;
+        width: 76%;
+        height: 76%;
+
         border-width: 2px;
     }
 
-    .player-dice-container {
-        grid-template-columns: repeat(2, 70px);
-        gap: 8px;
+    #dice {
+        width: 82px;
+        height: 82px;
+
+        font-size: 52px;
+
+        border-radius: 16px;
     }
 
-    .player-dice {
-        width: 70px;
-    }
+    #rollButton {
+        font-size: 18px;
 
-    .player-dice > div {
-        width: 55px;
-        height: 55px;
-        font-size: 32px;
-    }
-
-    button {
-        padding: 10px 18px;
-        font-size: 16px;
+        padding: 13px 32px;
     }
 
     #message {
+        margin-top: 15px;
+
+        padding: 11px 12px;
+
         font-size: 15px;
-        text-align: center;
     }
 }
+
+
+/* ==========================================
+   EXTRA SMALL PHONES
+   ========================================== */
+
+@media (max-width: 380px) {
+
+    #board {
+        width: 96vw;
+        height: 96vw;
+    }
+
+    #dice {
+        width: 70px;
+        height: 70px;
+
+        font-size: 44px;
+    }
+
+    #rollButton {
+        padding: 11px 25px;
+    }
+
+}
+```
