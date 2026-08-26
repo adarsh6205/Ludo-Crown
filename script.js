@@ -1151,117 +1151,11 @@ async function moveToken(
 
         }
 
-
-        // ==================================
-        // NEXT POSITION
-        // ==================================
-
-        const nextPosition =
-            token.position + 1;
-
-
-        // ==================================
-        // BLOCKADE CHECK
-        // ==================================
-
-        if (
-            nextPosition < 52
-        ) {
-
-            const nextGlobalPosition =
-                (
-                    startPosition[color] +
-                    nextPosition
-                ) % 52;
-
-
-            let blocked =
-                false;
-
-
-            players.forEach(
-                function(opponentColor) {
-
-                    if (
-                        opponentColor === color
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    let tokensOnSquare =
-                        0;
-
-
-                    tokenData[
-                        opponentColor
-                    ].forEach(
-                        function(opponentToken) {
-
-                            if (
-                                opponentToken.position >= 0 &&
-                                opponentToken.position < 52
-                            ) {
-
-                                const opponentGlobalPosition =
-                                    (
-                                        startPosition[
-                                            opponentColor
-                                        ] +
-                                        opponentToken.position
-                                    ) % 52;
-
-
-                                if (
-                                    opponentGlobalPosition ===
-                                    nextGlobalPosition
-                                ) {
-
-                                    tokensOnSquare++;
-
-                                }
-
-                            }
-
-                        }
-                    );
-
-
-                    if (
-                        tokensOnSquare >= 2
-                    ) {
-
-                        blocked =
-                            true;
-
-                    }
-
-                }
-            );
-
-
-            if (blocked) {
-
-                message.textContent =
-                    "🚧 Blockade! " +
-                    color +
-                    " cannot pass.";
-
-                return false;
-
-            }
-
-        }
-
-
         // ==================================
         // MOVE TOKEN POSITION
         // ==================================
 
         token.position++;
-
 
         // ==================================
         // ENTER HOME PATH
@@ -1615,40 +1509,6 @@ function sendTokenHome(
     );
 
 }
-
-
-// ==========================================
-// 🚧 CHECK BLOCKADE
-// ==========================================
-
-function hasBlockade(
-    color,
-    position
-) {
-
-    let count =
-        0;
-
-
-    tokenData[color].forEach(
-        function(token) {
-
-            if (
-                token.position === position
-            ) {
-
-                count++;
-
-            }
-
-        }
-    );
-
-
-    return count >= 2;
-
-}
-
 
 // ==========================================
 // 🏆 CHECK WINNER
