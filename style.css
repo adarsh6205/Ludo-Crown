@@ -665,3 +665,122 @@ h1 {
     }
 
 }
+
+/* ==========================================
+   📱 MOBILE BOARD FIX
+   ========================================== */
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Board must remain square */
+#board {
+    width: min(90vw, 600px);
+    height: min(90vw, 600px);
+
+    max-width: 600px;
+    max-height: 600px;
+
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+
+    box-sizing: border-box;
+
+    margin: 10px auto;
+
+    position: relative;
+
+    /* IMPORTANT */
+    background: #ffffff;
+}
+
+/* Every board cell must have a size */
+#board .cell {
+    min-width: 0;
+    min-height: 0;
+
+    box-sizing: border-box;
+
+    position: relative;
+}
+
+/* Keep tokens visible */
+#board .token {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+
+    width: 70%;
+    height: 70%;
+
+    left: 15%;
+    top: 15%;
+
+    z-index: 20;
+}
+
+/* ==========================================
+   📱 SMALL PHONES
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    #board {
+        width: 94vw;
+        height: 94vw;
+
+        max-width: none;
+        max-height: none;
+
+        margin: 8px auto;
+    }
+
+    #board .cell {
+        overflow: visible;
+    }
+
+    #board .token {
+        width: 72%;
+        height: 72%;
+
+        left: 14%;
+        top: 14%;
+
+        z-index: 50;
+    }
+
+}
+
+
+/* ==========================================
+   📱 VERY SMALL PHONES
+   ========================================== */
+
+@media (max-width: 380px) {
+
+    #board {
+        width: 96vw;
+        height: 96vw;
+    }
+
+    #board .token {
+        width: 70%;
+        height: 70%;
+
+        left: 15%;
+        top: 15%;
+    }
+
+}
