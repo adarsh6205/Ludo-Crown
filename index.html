@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title> Ludo Crown</title>
+    <title>Ludo Crown</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,34 +15,40 @@
 
     <h1>🎲 Ludo Crown</h1>
 
+    <a href="downloads/Ludo-Crown.apk"
+       download
+       class="download-button">
+        📱 Download Ludo Crown APK
+    </a>
+
+
     <!-- ==========================================
-     GAME MODE SELECTION
-========================================== -->
+         GAME MODE SELECTION
+    ========================================== -->
 
-<div id="modeScreen" class="mode-screen">
+    <div id="modeScreen" class="mode-screen">
 
-    <h2>🎮 Choose Game Mode</h2>
+        <h2>🎮 Choose Game Mode</h2>
 
-    <button id="fourPlayersButton">
-        👤 4 PLAYERS
-        <span>RED vs GREEN vs YELLOW vs BLUE</span>
-    </button>
+        <button id="fourPlayersButton">
+            👤 4 PLAYERS
+            <span>RED vs GREEN vs YELLOW vs BLUE</span>
+        </button>
 
-    <button id="teamModeButton">
-        👥 TEAM vs TEAM
-        <span>RED + YELLOW vs GREEN + BLUE</span>
-    </button>
+        <button id="teamModeButton">
+            👥 TEAM vs TEAM
+            <span>RED + YELLOW vs GREEN + BLUE</span>
+        </button>
 
-</div>
+    </div>
+
 
     <div class="game-container">
 
         <!-- Ludo Board -->
 
         <div id="board" class="board">
-
             <!-- JavaScript will create the board here -->
-
         </div>
 
 
@@ -49,15 +56,17 @@
 
         <div class="controls">
 
-<div id="teamDisplay" class="team-display"></div>
+            <div id="teamDisplay" class="team-display"></div>
 
-           <div class="player-dice-container">
+            <div class="player-dice-container">
 
-        <div id="dice">⚀</div>
+                <div id="dice">⚀</div>
 
-</div>
+            </div>
 
-            <button id="rollButton">Roll Dice</button>
+            <button id="rollButton">
+                Roll Dice
+            </button>
 
             <p id="message">
                 RED player's turn
@@ -69,35 +78,37 @@
 
 
     <script src="script.js"></script>
-<!-- ==========================================
-     👑 LUDO CROWN VICTORY SCREEN
-     ========================================== -->
 
-<div id="victoryScreen" class="victory-screen">
 
-    <div class="victory-box">
+    <!-- ==========================================
+         👑 LUDO CROWN VICTORY SCREEN
+    ========================================== -->
 
-        <div class="victory-crown">
-            👑
+    <div id="victoryScreen" class="victory-screen">
+
+        <div class="victory-box">
+
+            <div class="victory-crown">
+                👑
+            </div>
+
+            <h1>LUDO CROWN</h1>
+
+            <h2 id="winnerText">
+                🏆 RED WINS! 🏆
+            </h2>
+
+            <p>
+                Congratulations!
+            </p>
+
+            <button id="playAgainButton" onclick="playAgain()">
+                🎮 PLAY AGAIN
+            </button>
+
         </div>
 
-        <h1>LUDO CROWN</h1>
-
-        <h2 id="winnerText">
-            🏆 RED WINS! 🏆
-        </h2>
-
-        <p>
-            Congratulations!
-        </p>
-
-        <button id="playAgainButton" onclick="playAgain()">
-    🎮 PLAY AGAIN
-</button>
-
     </div>
-
-</div>
 
 </body>
 
