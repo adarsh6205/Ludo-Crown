@@ -984,7 +984,7 @@ function enableTokenSelection() {
 // 🚶 MOVE TOKEN
 // ==========================================
 
-async function moveToken(
+ function moveToken(
     color,
     number,
     steps
@@ -1716,28 +1716,18 @@ function nextPlayer() {
 rollButton.onclick =
     async function() {
 
-
         if (gameOver) {
-
             return;
-
         }
 
-
-        // ======================================
-        // PREVENT DOUBLE CLICK
-        // ======================================
-
-        rollButton.disabled =
-            true;
-
+        // Prevent double clicking
+        rollButton.disabled = true;
 
         const color =
             players[currentPlayer];
 
-
         // ======================================
-        // ROLL
+        // 🎲 ROLL DICE
         // ======================================
 
         const number =
@@ -1745,68 +1735,54 @@ rollButton.onclick =
                 Math.random() * 6
             ) + 1;
 
-
-        lastRoll =
-            number;
-
+        lastRoll = number;
 
         dice.textContent =
             diceFaces[number - 1];
-
 
         // ======================================
         // SIX COUNTER
         // ======================================
 
-        if (
-            number === 6
-        ) {
+        if (number === 6) {
 
             consecutiveSixes++;
 
         } else {
 
-            consecutiveSixes =
-                0;
+            consecutiveSixes = 0;
 
         }
 
-
         // ======================================
-        // THIRD SIX
+        // ❌ THREE SIXES
         // ======================================
 
-        if (
-            consecutiveSixes >= 3
-        ) {
+        if (consecutiveSixes >= 3) {
 
             message.textContent =
                 color +
                 " rolled three 6s! ❌ Turn passes.";
 
+            clearMovableTokens();
+
+            waitingForTokenSelection = false;
 
             await wait(700);
 
-
             nextPlayer();
 
-
-            rollButton.disabled =
-                false;
-
+            rollButton.disabled = false;
 
             return;
-
         }
 
 
         // ======================================
-        // CHECK MOVABLE TOKENS
+        // 🔍 FIND LEGAL TOKENS
         // ======================================
 
-        let movableTokenExists =
-            false;
-
+        const movableTokens = [];
 
         for (
             let i = 0;
@@ -1822,10 +1798,7 @@ rollButton.onclick =
                 )
             ) {
 
-                movableTokenExists =
-                    true;
-
-                break;
+                movableTokens.push(i);
 
             }
 
@@ -1833,23 +1806,18 @@ rollButton.onclick =
 
 
         // ======================================
-        // NO LEGAL MOVE
+        // ❌ NO TOKEN CAN MOVE
         // ======================================
 
         if (
-            !movableTokenExists
+            movableTokens.length === 0
         ) {
 
             clearMovableTokens();
 
+            waitingForTokenSelection = false;
 
-            waitingForTokenSelection =
-                false;
-
-
-            selectedToken =
-                null;
-
+            selectedToken = null;
 
             message.textContent =
                 color +
@@ -1857,16 +1825,208 @@ rollButton.onclick =
                 number +
                 ". No token can move.";
 
-
             await wait(700);
-
 
             nextPlayer();
 
+            rollButton.disabled = false;
 
-            rollButton.disabled =
-                false;
+            return;
+        }
 
+
+        // ======================================
+        // 🎯 MORE THAN ONE TOKEN CAN MOVE
+        // ======================================
+
+        if (
+            movableTokens.length > 1
+        ) {
+
+            waitingForTokenSelection = true;
+
+            selectedToken = null;
+
+            highlightMovableTokens(
+                color,
+                number
+            );
+
+            message.textContent =
+                color +
+                " rolled " +
+                number +
+                ". ✨ Choose a glowing token.";
+
+            rollButton.disabled = true;
+
+            return;
+        }
+
+
+        // ======================================
+        // 🎯 ONLY ONE TOKEN CAN MOVE
+        // ======================================
+
+        const onlyToken =
+            movableTokens[0];
+
+
+        // ======================================
+        // ⚠️ SPECIAL RULE FOR A 6
+        // ======================================
+        //
+        // If there is only ONE legal token
+        // and it is already outside home,
+        // we can automatically move it.
+        //
+        // BUT if the roll is 6 and there is
+        // another token at home, that home
+        // token is ALSO a possible choice.
+        //
+        // Therefore, don't automatically move
+        // the outside token when a 6 gives the
+        // player a choice.
+        // ======================================
+
+        if (number === 6) {
+
+            const homeTokens = [];
+
+            tokenData[color].forEach(
+                function(token, index) {
+
+                    if (
+                        token.position === -1
+                    ) {
+
+                        homeTokens.push(index);
+
+                    }
+
+                }
+            );
+
+
+            // ==================================
+            // IF THERE IS A HOME TOKEN
+            // GIVE PLAYER A CHOICE
+            // ==================================
+
+            if (
+                homeTokens.length > 0
+            ) {
+
+                waitingForTokenSelection = true;
+
+                selectedToken = null;
+
+                highlightMovableTokens(
+                    color,
+                    number
+                );
+
+                message.textContent =
+                    color +
+                    " rolled 6! 🎲 Choose a token to move.";
+
+                rollButton.disabled = true;
+
+                return;
+
+            }
+
+        }
+
+
+        // ======================================
+        // 🚀 AUTOMATICALLY MOVE ONLY TOKEN
+        // ======================================
+
+        waitingForTokenSelection = false;
+
+        selectedToken =
+            onlyToken;
+
+        clearMovableTokens();
+
+
+        const tokenElement =
+            document.querySelector(
+                `.token[data-color="${color}"][data-number="${onlyToken}"]`
+            );
+
+
+        if (tokenElement) {
+
+            tokenElement.classList.add(
+                "selected-token"
+            );
+
+        }
+
+
+        message.textContent =
+            color +
+            " Token " +
+            (onlyToken + 1) +
+            " moves automatically...";
+
+
+        const moved =
+            await moveToken(
+                color,
+                onlyToken,
+                number
+            );
+
+
+        // ======================================
+        // MOVEMENT FAILED
+        // ======================================
+
+        if (!moved) {
+
+            selectedToken = null;
+
+            waitingForTokenSelection = false;
+
+            if (tokenElement) {
+
+                tokenElement.classList.remove(
+                    "selected-token"
+                );
+
+            }
+
+            rollButton.disabled = false;
+
+            return;
+        }
+
+
+        // ======================================
+        // REMOVE SELECTION
+        // ======================================
+
+        if (tokenElement) {
+
+            tokenElement.classList.remove(
+                "selected-token"
+            );
+
+        }
+
+        selectedToken = null;
+
+        clearMovableTokens();
+
+
+        // ======================================
+        // CHECK WINNER
+        // ======================================
+
+        if (gameOver) {
 
             return;
 
@@ -1874,28 +2034,62 @@ rollButton.onclick =
 
 
         // ======================================
-        // PLAYER MUST SELECT TOKEN
+        // CAPTURE
         // ======================================
 
-        waitingForTokenSelection =
-            true;
+        const captured =
+            checkCapture(
+                color,
+                onlyToken
+            );
 
 
-        selectedToken =
-            null;
+        // ======================================
+        // 🎲 AUTOMATIC MOVE WAS A 6
+        // ======================================
+
+        if (number === 6) {
+
+            waitingForTokenSelection = false;
+
+            message.textContent =
+                color +
+                " rolled 6! 🎲 Roll again.";
+
+            rollButton.disabled = false;
+
+            return;
+        }
 
 
-        highlightMovableTokens(
-            color,
-            number
-        );
+        // ======================================
+        // ⚔️ CAPTURE = EXTRA TURN
+        // ======================================
+
+        if (captured) {
+
+            waitingForTokenSelection = false;
+
+            message.textContent =
+                "⚔️ " +
+                color +
+                " captured a token! Roll again.";
+
+            rollButton.disabled = false;
+
+            return;
+        }
 
 
-        message.textContent =
-            color +
-            " rolled " +
-            number +
-            ". ✨ Select a glowing token.";
+        // ======================================
+        // NEXT PLAYER
+        // ======================================
+
+        waitingForTokenSelection = false;
+
+        nextPlayer();
+
+        rollButton.disabled = false;
 
     };
 
@@ -1905,7 +2099,6 @@ rollButton.onclick =
 // ==========================================
 
 function playAgain() {
-
 
     // ======================================
     // HIDE VICTORY SCREEN
@@ -1923,7 +2116,6 @@ function playAgain() {
             "none";
 
     }
-
 
     // ======================================
     // RESET VARIABLES
