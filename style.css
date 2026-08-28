@@ -775,3 +775,121 @@ h1 {
     }
 
 }
+
+/* ==========================================
+   🎮 GAME MODE SELECTION
+========================================== */
+
+.mode-screen {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.92);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 25px;
+
+    z-index: 9999;
+
+}
+
+
+.mode-screen h2 {
+
+    color: white;
+
+    font-size: 36px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.mode-screen button {
+
+    width: 380px;
+
+    padding: 20px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    background: white;
+
+    color: #222;
+
+    transition: transform 0.2s;
+
+}
+
+
+.mode-screen button:hover {
+
+    transform: scale(1.05);
+
+}
+
+
+.mode-screen button span {
+
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 14px;
+
+    font-weight: normal;
+
+}
+
+/* ==========================================
+   👥 TEAM DISPLAY
+========================================== */
+
+.team-display {
+
+    display: none;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 12px 15px;
+
+    margin-bottom: 10px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.9);
+
+    color: #222;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    line-height: 1.5;
+
+}
