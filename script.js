@@ -40,7 +40,6 @@ let lastRoll = 0;
 
 let gameOver = false;
 
-// Number of consecutive sixes
 let consecutiveSixes = 0;
 
 
@@ -78,7 +77,6 @@ const path = [
     [0, 6],
 
     [0, 7],
-
     [0, 8],
 
     [1, 8],
@@ -95,7 +93,6 @@ const path = [
     [6, 14],
 
     [7, 14],
-
     [8, 14],
 
     [8, 13],
@@ -112,7 +109,6 @@ const path = [
     [14, 8],
 
     [14, 7],
-
     [14, 6],
 
     [13, 6],
@@ -129,7 +125,6 @@ const path = [
     [8, 0],
 
     [7, 0],
-
     [6, 0]
 ];
 
@@ -207,6 +202,7 @@ const homePaths = {
 
 // ==========================================
 // TOKEN DATA
+//
 // -1 = HOME
 // 0-51 = OUTER TRACK
 // 52-56 = HOME PATH
@@ -557,13 +553,17 @@ function placeTokensInHome() {
 // 🔍 CHECK IF TOKEN CAN MOVE
 // ==========================================
 
-function canTokenMove(color, number, steps) {
+function canTokenMove(
+    color,
+    number,
+    steps
+) {
 
     const token =
         tokenData[color][number];
 
 
-    // FINISHED TOKEN
+    // FINISHED
 
     if (
         token.position === 57
@@ -574,7 +574,7 @@ function canTokenMove(color, number, steps) {
     }
 
 
-    // TOKEN AT HOME
+    // HOME
 
     if (
         token.position === -1
@@ -585,7 +585,7 @@ function canTokenMove(color, number, steps) {
     }
 
 
-    // TOKEN IN HOME PATH
+    // HOME PATH
 
     if (
         token.position >= 52 &&
@@ -600,7 +600,7 @@ function canTokenMove(color, number, steps) {
     }
 
 
-    // TOKEN ON OUTER TRACK
+    // OUTER TRACK
 
     if (
         token.position >= 0 &&
@@ -621,7 +621,7 @@ function canTokenMove(color, number, steps) {
 
 
 // ==========================================
-// ✨ REMOVE MOVABLE GLOW
+// ✨ CLEAR MOVABLE TOKENS
 // ==========================================
 
 function clearMovableTokens() {
@@ -651,7 +651,7 @@ function highlightMovableTokens(
     clearMovableTokens();
 
     tokenData[color].forEach(
-        function(tokenDataItem, number) {
+        function(tokenItem, number) {
 
             if (
                 canTokenMove(
@@ -700,8 +700,6 @@ function enableTokenSelection() {
                 event.stopPropagation();
 
 
-                // GAME OVER
-
                 if (gameOver) {
 
                     return;
@@ -735,7 +733,7 @@ function enableTokenSelection() {
                 }
 
 
-                // MUST ROLL FIRST
+                // MUST ROLL
 
                 if (
                     !waitingForTokenSelection
@@ -753,7 +751,7 @@ function enableTokenSelection() {
                     lastRoll;
 
 
-                // TOKEN FINISHED
+                // FINISHED
 
                 if (
                     tokenData[color][number]
@@ -763,14 +761,14 @@ function enableTokenSelection() {
                     message.textContent =
                         "🏆 Token " +
                         (number + 1) +
-                        " has already reached the Crown.";
+                        " already reached the Crown.";
 
                     return;
 
                 }
 
 
-                // CHECK THIS TOKEN
+                // CAN MOVE?
 
                 if (
                     !canTokenMove(
@@ -793,12 +791,9 @@ function enableTokenSelection() {
                 }
 
 
-                // ======================================
-                // SELECT TOKEN
-                // ======================================
+                // SELECT
 
                 clearMovableTokens();
-
 
                 allTokens.forEach(
                     function(item) {
@@ -814,7 +809,6 @@ function enableTokenSelection() {
                 selectedToken =
                     number;
 
-
                 token.classList.add(
                     "selected-token"
                 );
@@ -822,7 +816,6 @@ function enableTokenSelection() {
 
                 waitingForTokenSelection =
                     false;
-
 
                 rollButton.disabled =
                     true;
@@ -837,9 +830,7 @@ function enableTokenSelection() {
                     " spaces...";
 
 
-                // ======================================
-                // MOVE TOKEN
-                // ======================================
+                // MOVE
 
                 const moved =
                     await moveToken(
@@ -848,10 +839,6 @@ function enableTokenSelection() {
                         steps
                     );
 
-
-                // ======================================
-                // MOVEMENT FAILED
-                // ======================================
 
                 if (!moved) {
 
@@ -873,18 +860,10 @@ function enableTokenSelection() {
                         steps
                     );
 
-                    message.textContent =
-                        color +
-                        " cannot move this token. Choose another token.";
-
                     return;
 
                 }
 
-
-                // ======================================
-                // MOVEMENT SUCCESSFUL
-                // ======================================
 
                 token.classList.remove(
                     "selected-token"
@@ -896,9 +875,7 @@ function enableTokenSelection() {
                 clearMovableTokens();
 
 
-                // ======================================
-                // CHECK WINNER
-                // ======================================
+                // WINNER
 
                 if (gameOver) {
 
@@ -907,9 +884,7 @@ function enableTokenSelection() {
                 }
 
 
-                // ======================================
-                // CAPTURE CHECK
-                // ======================================
+                // CAPTURE
 
                 const captured =
                     checkCapture(
@@ -918,11 +893,11 @@ function enableTokenSelection() {
                     );
 
 
-                // ======================================
                 // SIX
-                // ======================================
 
-                if (steps === 6) {
+                if (
+                    steps === 6
+                ) {
 
                     waitingForTokenSelection =
                         false;
@@ -939,9 +914,7 @@ function enableTokenSelection() {
                 }
 
 
-                // ======================================
-                // CAPTURE = EXTRA TURN
-                // ======================================
+                // CAPTURE EXTRA TURN
 
                 if (captured) {
 
@@ -961,9 +934,7 @@ function enableTokenSelection() {
                 }
 
 
-                // ======================================
-                // NORMAL TURN
-                // ======================================
+                // NEXT PLAYER
 
                 waitingForTokenSelection =
                     false;
@@ -984,7 +955,7 @@ function enableTokenSelection() {
 // 🚶 MOVE TOKEN
 // ==========================================
 
- function moveToken(
+async function moveToken(
     color,
     number,
     steps
@@ -1012,9 +983,7 @@ function enableTokenSelection() {
     }
 
 
-    // ======================================
-    // FINISHED TOKEN
-    // ======================================
+    // FINISHED
 
     if (
         token.position === 57
@@ -1096,8 +1065,16 @@ function enableTokenSelection() {
         );
 
 
+        message.textContent =
+            color +
+            " Token " +
+            (number + 1) +
+            " came out of home!";
+
+
         await wait(300);
 
+        validateGameState();
 
         return true;
 
@@ -1114,9 +1091,8 @@ function enableTokenSelection() {
         i++
     ) {
 
-
         // ==================================
-        // EXACT CROWN CHECK
+        // HOME PATH EXACT CHECK
         // ==================================
 
         if (
@@ -1126,16 +1102,6 @@ function enableTokenSelection() {
             const remaining =
                 57 - token.position;
 
-            if (
-                remaining <= 0
-            ) {
-
-                token.position =
-                    57;
-
-                break;
-
-            }
 
             if (
                 steps - i >
@@ -1153,14 +1119,7 @@ function enableTokenSelection() {
 
 
         // ==================================
-        // NEXT POSITION
-        // ==================================
-
-        const nextPosition =
-            token.position + 1;
-
-        // ==================================
-        // MOVE TOKEN POSITION
+        // ADVANCE
         // ==================================
 
         token.position++;
@@ -1219,7 +1178,6 @@ function enableTokenSelection() {
 
                 checkWinner(color);
 
-
                 await wait(500);
 
                 continue;
@@ -1232,9 +1190,7 @@ function enableTokenSelection() {
             // ==================================
 
             const homeCell =
-                homePaths[color][
-                    homeIndex
-                ];
+                homePaths[color][homeIndex];
 
 
             const row =
@@ -1257,7 +1213,7 @@ function enableTokenSelection() {
                 color +
                 " Token " +
                 (number + 1) +
-                " entering home path → " +
+                " → Home " +
                 (homeIndex + 1) +
                 "/" +
                 homePaths[color].length;
@@ -1338,9 +1294,6 @@ function checkCapture(
         tokenData[color][number];
 
 
-    // HOME / CROWN / HOME PATH
-    // cannot capture
-
     if (
         token.position < 0 ||
         token.position >= 52
@@ -1358,9 +1311,7 @@ function checkCapture(
         ) % 52;
 
 
-    // ======================================
-    // SAFE SQUARE
-    // ======================================
+    // SAFE
 
     if (
         safeSquares.includes(
@@ -1376,10 +1327,6 @@ function checkCapture(
     let captured =
         false;
 
-
-    // ======================================
-    // CHECK OPPONENTS
-    // ======================================
 
     players.forEach(
         function(opponentColor) {
@@ -1401,7 +1348,6 @@ function checkCapture(
                     opponentNumber
                 ) {
 
-
                     if (
                         opponentToken.position < 0 ||
                         opponentToken.position >= 52
@@ -1420,10 +1366,6 @@ function checkCapture(
                             opponentToken.position
                         ) % 52;
 
-
-                    // ==================================
-                    // SAME SQUARE
-                    // ==================================
 
                     if (
                         currentGlobalPosition ===
@@ -1585,10 +1527,8 @@ function checkWinner(color) {
         gameOver =
             true;
 
-
         waitingForTokenSelection =
             false;
-
 
         clearMovableTokens();
 
@@ -1644,7 +1584,7 @@ function checkWinner(color) {
 
 
 // ==========================================
-// WAIT FUNCTION
+// WAIT
 // ==========================================
 
 function wait(milliseconds) {
@@ -1686,18 +1626,14 @@ function nextPlayer() {
     selectedToken =
         null;
 
-
     waitingForTokenSelection =
         false;
-
 
     lastRoll =
         0;
 
-
     consecutiveSixes =
         0;
-
 
     clearMovableTokens();
 
@@ -1717,17 +1653,26 @@ rollButton.onclick =
     async function() {
 
         if (gameOver) {
+
             return;
+
         }
 
-        // Prevent double clicking
-        rollButton.disabled = true;
+
+        // ======================================
+        // PREVENT DOUBLE CLICK
+        // ======================================
+
+        rollButton.disabled =
+            true;
+
 
         const color =
             players[currentPlayer];
 
+
         // ======================================
-        // 🎲 ROLL DICE
+        // ROLL
         // ======================================
 
         const number =
@@ -1735,54 +1680,71 @@ rollButton.onclick =
                 Math.random() * 6
             ) + 1;
 
-        lastRoll = number;
+
+        lastRoll =
+            number;
+
 
         dice.textContent =
             diceFaces[number - 1];
+
 
         // ======================================
         // SIX COUNTER
         // ======================================
 
-        if (number === 6) {
+        if (
+            number === 6
+        ) {
 
             consecutiveSixes++;
 
         } else {
 
-            consecutiveSixes = 0;
+            consecutiveSixes =
+                0;
 
         }
 
+
         // ======================================
-        // ❌ THREE SIXES
+        // THREE SIXES
         // ======================================
 
-        if (consecutiveSixes >= 3) {
+        if (
+            consecutiveSixes >= 3
+        ) {
 
             message.textContent =
                 color +
                 " rolled three 6s! ❌ Turn passes.";
 
+
             clearMovableTokens();
 
-            waitingForTokenSelection = false;
+            waitingForTokenSelection =
+                false;
+
 
             await wait(700);
 
+
             nextPlayer();
 
-            rollButton.disabled = false;
+            rollButton.disabled =
+                false;
 
             return;
+
         }
 
 
         // ======================================
-        // 🔍 FIND LEGAL TOKENS
+        // FIND LEGAL TOKENS
         // ======================================
 
         const movableTokens = [];
+
 
         for (
             let i = 0;
@@ -1806,7 +1768,7 @@ rollButton.onclick =
 
 
         // ======================================
-        // ❌ NO TOKEN CAN MOVE
+        // NO LEGAL TOKEN
         // ======================================
 
         if (
@@ -1815,9 +1777,12 @@ rollButton.onclick =
 
             clearMovableTokens();
 
-            waitingForTokenSelection = false;
+            waitingForTokenSelection =
+                false;
 
-            selectedToken = null;
+            selectedToken =
+                null;
+
 
             message.textContent =
                 color +
@@ -1825,81 +1790,44 @@ rollButton.onclick =
                 number +
                 ". No token can move.";
 
+
             await wait(700);
+
 
             nextPlayer();
 
-            rollButton.disabled = false;
+            rollButton.disabled =
+                false;
 
             return;
+
         }
 
 
         // ======================================
-        // 🎯 MORE THAN ONE TOKEN CAN MOVE
+        // 6 SPECIAL RULE
+        //
+        // If 6 was rolled and there is a token
+        // at home, give player a choice.
+        //
+        // Example:
+        //
+        // Token 1 is outside
+        // Token 2 is at home
+        //
+        // Roll = 6
+        //
+        // Player chooses:
+        // 1. Move outside token 6 spaces
+        // 2. Bring home token out
         // ======================================
 
         if (
-            movableTokens.length > 1
+            number === 6
         ) {
 
-            waitingForTokenSelection = true;
-
-            selectedToken = null;
-
-            highlightMovableTokens(
-                color,
-                number
-            );
-
-            message.textContent =
-                color +
-                " rolled " +
-                number +
-                ". ✨ Choose a glowing token.";
-
-            rollButton.disabled = true;
-
-            return;
-        }
-
-
-        // ======================================
-        // 🎯 ONLY ONE TOKEN CAN MOVE
-        // ======================================
-
-        const onlyToken =
-            movableTokens[0];
-        
-        console.log(
-    "AUTO MOVE:",
-    color,
-    "Token:",
-    onlyToken + 1,
-    "Roll:",
-    number
-);
-
-        // ======================================
-        // ⚠️ SPECIAL RULE FOR A 6
-        // ======================================
-        //
-        // If there is only ONE legal token
-        // and it is already outside home,
-        // we can automatically move it.
-        //
-        // BUT if the roll is 6 and there is
-        // another token at home, that home
-        // token is ALSO a possible choice.
-        //
-        // Therefore, don't automatically move
-        // the outside token when a 6 gives the
-        // player a choice.
-        // ======================================
-
-        if (number === 6) {
-
             const homeTokens = [];
+
 
             tokenData[color].forEach(
                 function(token, index) {
@@ -1908,7 +1836,9 @@ rollButton.onclick =
                         token.position === -1
                     ) {
 
-                        homeTokens.push(index);
+                        homeTokens.push(
+                            index
+                        );
 
                     }
 
@@ -1916,29 +1846,31 @@ rollButton.onclick =
             );
 
 
-            // ==================================
-            // IF THERE IS A HOME TOKEN
-            // GIVE PLAYER A CHOICE
-            // ==================================
-
             if (
                 homeTokens.length > 0
             ) {
 
-                waitingForTokenSelection = true;
+                waitingForTokenSelection =
+                    true;
 
-                selectedToken = null;
+                selectedToken =
+                    null;
+
 
                 highlightMovableTokens(
                     color,
                     number
                 );
 
+
                 message.textContent =
                     color +
-                    " rolled 6! 🎲 Choose a token to move.";
+                    " rolled 6! 🎲 Choose a token to move or bring one out of home.";
 
-                rollButton.disabled = true;
+
+                rollButton.disabled =
+                    true;
+
 
                 return;
 
@@ -1948,13 +1880,70 @@ rollButton.onclick =
 
 
         // ======================================
-        // 🚀 AUTOMATICALLY MOVE ONLY TOKEN
+        // MORE THAN ONE MOVABLE TOKEN
         // ======================================
 
-        waitingForTokenSelection = false;
+        if (
+            movableTokens.length > 1
+        ) {
+
+            waitingForTokenSelection =
+                true;
+
+            selectedToken =
+                null;
+
+
+            highlightMovableTokens(
+                color,
+                number
+            );
+
+
+            message.textContent =
+                color +
+                " rolled " +
+                number +
+                ". ✨ Choose a glowing token.";
+
+
+            rollButton.disabled =
+                true;
+
+
+            return;
+
+        }
+
+
+        // ======================================
+        // ONLY ONE MOVABLE TOKEN
+        // ======================================
+
+        const onlyToken =
+            movableTokens[0];
+
+
+        console.log(
+            "AUTO MOVE:",
+            color,
+            "Token:",
+            onlyToken + 1,
+            "Roll:",
+            number
+        );
+
+
+        // ======================================
+        // AUTOMATIC MOVE
+        // ======================================
+
+        waitingForTokenSelection =
+            false;
 
         selectedToken =
             onlyToken;
+
 
         clearMovableTokens();
 
@@ -1981,6 +1970,10 @@ rollButton.onclick =
             " moves automatically...";
 
 
+        // ======================================
+        // MOVE
+        // ======================================
+
         const moved =
             await moveToken(
                 color,
@@ -1995,9 +1988,12 @@ rollButton.onclick =
 
         if (!moved) {
 
-            selectedToken = null;
+            selectedToken =
+                null;
 
-            waitingForTokenSelection = false;
+            waitingForTokenSelection =
+                false;
+
 
             if (tokenElement) {
 
@@ -2007,9 +2003,12 @@ rollButton.onclick =
 
             }
 
-            rollButton.disabled = false;
+
+            rollButton.disabled =
+                false;
 
             return;
+
         }
 
 
@@ -2025,13 +2024,16 @@ rollButton.onclick =
 
         }
 
-        selectedToken = null;
+
+        selectedToken =
+            null;
+
 
         clearMovableTokens();
 
 
         // ======================================
-        // CHECK WINNER
+        // WINNER
         // ======================================
 
         if (gameOver) {
@@ -2053,39 +2055,57 @@ rollButton.onclick =
 
 
         // ======================================
-        // 🎲 AUTOMATIC MOVE WAS A 6
+        // AUTOMATIC MOVE WAS 6
+        //
+        // Player gets another roll.
         // ======================================
 
-        if (number === 6) {
+        if (
+            number === 6
+        ) {
 
-            waitingForTokenSelection = false;
+            waitingForTokenSelection =
+                false;
+
 
             message.textContent =
                 color +
                 " rolled 6! 🎲 Roll again.";
 
-            rollButton.disabled = false;
+
+            rollButton.disabled =
+                false;
+
 
             return;
+
         }
 
 
         // ======================================
-        // ⚔️ CAPTURE = EXTRA TURN
+        // CAPTURE EXTRA TURN
         // ======================================
 
-        if (captured) {
+        if (
+            captured
+        ) {
 
-            waitingForTokenSelection = false;
+            waitingForTokenSelection =
+                false;
+
 
             message.textContent =
                 "⚔️ " +
                 color +
                 " captured a token! Roll again.";
 
-            rollButton.disabled = false;
+
+            rollButton.disabled =
+                false;
+
 
             return;
+
         }
 
 
@@ -2093,11 +2113,15 @@ rollButton.onclick =
         // NEXT PLAYER
         // ======================================
 
-        waitingForTokenSelection = false;
+        waitingForTokenSelection =
+            false;
+
 
         nextPlayer();
 
-        rollButton.disabled = false;
+
+        rollButton.disabled =
+            false;
 
     };
 
@@ -2124,6 +2148,7 @@ function playAgain() {
             "none";
 
     }
+
 
     // ======================================
     // RESET VARIABLES
@@ -2168,7 +2193,6 @@ function playAgain() {
                     number
                 ) {
 
-
                     token.position =
                         -1;
 
@@ -2193,22 +2217,16 @@ function playAgain() {
                         "selected-token"
                     );
 
-
                     tokenElement.classList.remove(
                         "movable-token"
                     );
 
 
                     const homeRow =
-                        homePositions[
-                            color
-                        ][number][0];
-
+                        homePositions[color][number][0];
 
                     const homeCol =
-                        homePositions[
-                            color
-                        ][number][1];
+                        homePositions[color][number][1];
 
 
                     const homeCellIndex =
@@ -2257,7 +2275,6 @@ function validateGameState() {
 
             tokenData[color].forEach(
                 function(token) {
-
 
                     // HOME
 
