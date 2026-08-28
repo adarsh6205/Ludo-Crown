@@ -1,24 +1,37 @@
 /* ==========================================
-   👑 LUDO CROWN - COMPLETE BOARD CSS
+   👑 LUDO CROWN
+   COMPLETE GAME CSS
+   ========================================== */
+
+
+/* ==========================================
+   PAGE
    ========================================== */
 
 * {
     box-sizing: border-box;
 }
 
-html,
 body {
     margin: 0;
-    padding: 0;
-    min-height: 100%;
-}
+    min-height: 100vh;
 
-body {
-    background: #171717;
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #1a1a2e,
+        #16213e,
+        #0f3460
+    );
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    overflow-x: hidden;
+
+    padding: 20px;
 }
 
 
@@ -27,113 +40,117 @@ body {
    ========================================== */
 
 h1 {
-    margin: 15px 0 10px;
-    font-size: 32px;
-    font-weight: bold;
+    margin: 5px 0 20px 0;
+
+    font-size: 42px;
+
+    text-align: center;
+
+    color: #ffd700;
+
+    text-shadow:
+        0 0 8px #ffd700,
+        0 0 18px rgba(255, 215, 0, 0.6);
 }
 
 
 /* ==========================================
-   BOARD
+   GAME CONTAINER
    ========================================== */
 
-#board {
-    width: min(92vw, 600px);
-    height: min(92vw, 600px);
+.game-container {
+    display: flex;
 
-    margin: 20px auto;
+    gap: 30px;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+
+/* ==========================================
+   LUDO BOARD
+   ========================================== */
+
+.board {
+    width: min(80vw, 650px);
+    height: min(80vw, 650px);
+
+    max-width: 650px;
+    max-height: 650px;
 
     display: grid;
 
     grid-template-columns: repeat(15, 1fr);
     grid-template-rows: repeat(15, 1fr);
 
-    border: 4px solid #111;
-
     background: white;
 
-    position: relative;
+    border: 8px solid #111;
+
+    border-radius: 12px;
+
+    overflow: hidden;
 
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.45);
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.25);
 }
 
 
 /* ==========================================
-   EVERY CELL
+   BOARD CELLS
    ========================================== */
 
 .cell {
-    width: 100%;
-    height: 100%;
-
     position: relative;
 
-    border: 1px solid rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(0, 0, 0, 0.25);
 
     display: flex;
-    justify-content: center;
-    align-items: center;
 
-    background: #ffffff;
+    align-items: center;
+    justify-content: center;
 
     overflow: visible;
 }
 
 
 /* ==========================================
-   🟥 RED HOME
+   RED HOME
    ========================================== */
 
 .red-home {
-    background:
-        linear-gradient(
-            135deg,
-            #ff5148,
-            #df211b
-        ) !important;
+    background: #e53935;
 }
 
 
 /* ==========================================
-   🟩 GREEN HOME
+   GREEN HOME
    ========================================== */
 
 .green-home {
-    background:
-        linear-gradient(
-            135deg,
-            #4ade80,
-            #16a34a
-        ) !important;
+    background: #43a047;
 }
 
 
 /* ==========================================
-   🟨 YELLOW HOME
+   YELLOW HOME
    ========================================== */
 
 .yellow-home {
-    background:
-        linear-gradient(
-            135deg,
-            #facc15,
-            #eab308
-        ) !important;
+    background: #fdd835;
 }
 
 
 /* ==========================================
-   🟦 BLUE HOME
+   BLUE HOME
    ========================================== */
 
 .blue-home {
-    background:
-        linear-gradient(
-            135deg,
-            #38bdf8,
-            #0284c7
-        ) !important;
+    background: #1e88e5;
 }
 
 
@@ -142,159 +159,158 @@ h1 {
    ========================================== */
 
 .path {
-    background: #ffffff !important;
+    background: #f5f5f5;
 }
 
 
 /* ==========================================
-   VISIBLE PLAYING PATH
+   LUDO OUTER PATH
    ========================================== */
 
 .ludo-path {
-    background: #ffffff !important;
+    background: #ffffff;
+
+    border: 1px solid #777;
 }
 
 
 /* ==========================================
-   🟥 RED HOME PATH
+   RED HOME PATH
    ========================================== */
 
 .red-path {
-    background:
-        linear-gradient(
-            90deg,
-            #ff4b45,
-            #ef2923
-        ) !important;
+    background: #ef5350;
+
+    border: 1px solid #b71c1c;
 }
 
 
 /* ==========================================
-   🟩 GREEN HOME PATH
+   GREEN HOME PATH
    ========================================== */
 
 .green-path {
-    background:
-        linear-gradient(
-            180deg,
-            #4ade80,
-            #22c55e
-        ) !important;
+    background: #66bb6a;
+
+    border: 1px solid #1b5e20;
 }
 
 
 /* ==========================================
-   🟨 YELLOW HOME PATH
+   YELLOW HOME PATH
    ========================================== */
 
 .yellow-path {
-    background:
-        linear-gradient(
-            90deg,
-            #facc15,
-            #eab308
-        ) !important;
+    background: #ffee58;
+
+    border: 1px solid #f57f17;
 }
 
 
 /* ==========================================
-   🟦 BLUE HOME PATH
+   BLUE HOME PATH
    ========================================== */
 
 .blue-path {
-    background:
-        linear-gradient(
-            180deg,
-            #38bdf8,
-            #0284c7
-        ) !important;
+    background: #42a5f5;
+
+    border: 1px solid #0d47a1;
 }
 
 
 /* ==========================================
-   👑 CENTER
+   CENTER
    ========================================== */
 
 .center {
-    background: white !important;
+    background: linear-gradient(
+        135deg,
+        #ff5252,
+        #ffd740,
+        #69f0ae,
+        #448aff
+    );
 
     display: flex;
 
     align-items: center;
     justify-content: center;
+}
 
-    font-size: clamp(18px, 4vw, 30px);
+
+/* ==========================================
+   CROWN
+   ========================================== */
+
+.center .cell {
+    font-size: 30px;
+}
+
+
+/* The actual center cell containing 👑 */
+
+.cell.center {
+    transition: 0.2s;
+}
+
+
+/* ==========================================
+   SAFE SQUARES
+   ========================================== */
+
+.safe-square {
+    background: #fff8c4;
+
+    box-shadow:
+        inset 0 0 0 3px #ffd700;
 
     z-index: 1;
 }
 
 
 /* ==========================================
-   👑 CROWN
-   ========================================== */
-
-.center {
-    text-shadow:
-        0 2px 3px rgba(0, 0, 0, 0.3);
-}
-
-
-/* ==========================================
-   🛡️ SAFE SQUARE
-   ========================================== */
-
-.safe-square {
-    background:
-        radial-gradient(
-            circle,
-            #ffffff 0%,
-            #ffffff 55%,
-            #f0f0f0 56%,
-            #ffffff 100%
-        ) !important;
-}
-
-
-/* ==========================================
-   SAFE SQUARE GRAPHIC
+   SAFE SQUARE STAR / SYMBOL EFFECT
    ========================================== */
 
 .safe-square::after {
-    content: "🛡️";
+    content: "★";
 
     position: absolute;
 
-    font-size: clamp(12px, 2.2vw, 20px);
+    font-size: 13px;
 
-    opacity: 0.9;
+    color: #d4a900;
+
+    opacity: 0.75;
 
     pointer-events: none;
-
-    z-index: 0;
 }
 
 
 /* ==========================================
-   TOKEN
+   TOKENS
    ========================================== */
 
 .token {
     width: 65%;
     height: 65%;
 
-    min-width: 16px;
-    min-height: 16px;
-
-    max-width: 34px;
-    max-height: 34px;
+    min-width: 12px;
+    min-height: 12px;
 
     border-radius: 50%;
+
+    border: 3px solid white;
+
+    box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.5),
+        inset 0 2px 3px rgba(255, 255, 255, 0.45);
+
+    cursor: pointer;
 
     position: relative;
 
     z-index: 10;
-
-    cursor: pointer;
 
     transition:
         transform 0.2s ease,
@@ -304,198 +320,193 @@ h1 {
 
     align-items: center;
     justify-content: center;
-
-    border: 3px solid white;
-
-    box-shadow:
-        0 2px 5px rgba(0, 0, 0, 0.55);
 }
 
 
 /* ==========================================
-   🔴 RED TOKEN
+   RED TOKEN
    ========================================== */
 
 .red-token {
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #ff8a80,
-            #f52222 45%,
-            #a80000 100%
-        );
-
-    border-color: #ffffff;
-
-    box-shadow:
-        0 2px 6px rgba(120, 0, 0, 0.8);
+    background: #d32f2f;
 }
 
 
 /* ==========================================
-   🟢 GREEN TOKEN
+   GREEN TOKEN
    ========================================== */
 
 .green-token {
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #86efac,
-            #16a34a 45%,
-            #065f2b 100%
-        );
-
-    border-color: #ffffff;
-
-    box-shadow:
-        0 2px 6px rgba(0, 80, 30, 0.8);
+    background: #2e7d32;
 }
 
 
 /* ==========================================
-   🟡 YELLOW TOKEN
+   YELLOW TOKEN
    ========================================== */
 
 .yellow-token {
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #fff59d,
-            #facc15 45%,
-            #a16207 100%
-        );
-
-    border-color: #ffffff;
-
-    box-shadow:
-        0 2px 6px rgba(100, 70, 0, 0.8);
+    background: #f9a825;
 }
 
 
 /* ==========================================
-   🔵 BLUE TOKEN
+   BLUE TOKEN
    ========================================== */
 
 .blue-token {
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #93c5fd,
-            #0284c7 45%,
-            #064e78 100%
-        );
-
-    border-color: #ffffff;
-
-    box-shadow:
-        0 2px 6px rgba(0, 50, 100, 0.8);
+    background: #1565c0;
 }
 
 
 /* ==========================================
-   ✨ MOVABLE TOKEN
+   TOKEN HOVER
    ========================================== */
 
-.movable-token {
-    animation: tokenGlow 0.8s infinite alternate;
+.token:hover {
+    transform: scale(1.15);
 
-    transform: scale(1.12);
+    z-index: 50;
 
-    z-index: 30;
-}
-
-
-@keyframes tokenGlow {
-
-    from {
-        filter: brightness(1);
-
-        box-shadow:
-            0 0 5px 2px white,
-            0 2px 6px rgba(0, 0, 0, 0.5);
-    }
-
-    to {
-        filter: brightness(1.35);
-
-        box-shadow:
-            0 0 12px 5px white,
-            0 0 20px 7px rgba(255, 255, 255, 0.7);
-    }
-
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.7);
 }
 
 
 /* ==========================================
-   🎯 SELECTED TOKEN
+   SELECTED TOKEN
    ========================================== */
 
 .selected-token {
     transform: scale(1.2);
 
-    z-index: 50;
+    z-index: 100;
 
-    animation: selectedTokenGlow 0.6s infinite alternate;
+    box-shadow:
+        0 0 0 4px white,
+        0 0 15px #ffffff,
+        0 5px 12px rgba(0, 0, 0, 0.6);
 }
 
 
-@keyframes selectedTokenGlow {
+/* ==========================================
+   MOVABLE TOKEN
+   ========================================== */
 
-    from {
+.movable-token {
+    animation: movableGlow 1s infinite;
+
+    z-index: 100;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================
+   MOVABLE TOKEN ANIMATION
+   ========================================== */
+
+@keyframes movableGlow {
+
+    0% {
+        transform: scale(1);
+
         box-shadow:
-            0 0 8px 3px #ffffff;
+            0 0 0 0 rgba(255, 255, 255, 0.9);
     }
 
-    to {
+    50% {
+        transform: scale(1.18);
+
         box-shadow:
-            0 0 16px 7px #ffffff;
+            0 0 0 6px rgba(255, 255, 255, 0.9),
+            0 0 20px rgba(255, 215, 0, 1);
+    }
+
+    100% {
+        transform: scale(1);
+
+        box-shadow:
+            0 0 0 0 rgba(255, 255, 255, 0.9);
     }
 
 }
 
 
 /* ==========================================
-   🎲 MAIN DICE
+   CONTROLS
+   ========================================== */
+
+.controls {
+    min-width: 220px;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    border: 2px solid rgba(255, 255, 255, 0.2);
+
+    backdrop-filter: blur(10px);
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ==========================================
+   DICE
    ========================================== */
 
 #dice {
     width: 90px;
     height: 90px;
 
-    margin: 15px auto;
+    margin: 0 auto 20px auto;
+
+    border-radius: 15px;
 
     background: white;
 
     color: #111;
-
-    border-radius: 15px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    font-size: 50px;
+    font-size: 58px;
 
     box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.4);
+        0 5px 15px rgba(0, 0, 0, 0.5);
+
+    user-select: none;
 }
 
 
 /* ==========================================
-   🎲 ROLL BUTTON
+   ROLL BUTTON
    ========================================== */
 
 #rollButton {
-    padding: 14px 35px;
+    width: 100%;
+
+    padding: 14px 20px;
 
     border: none;
 
-    border-radius: 12px;
+    border-radius: 10px;
 
-    background: #ff9800;
+    background: linear-gradient(
+        135deg,
+        #ffd700,
+        #ffb300
+    );
 
-    color: white;
+    color: #111;
 
     font-size: 18px;
 
@@ -504,50 +515,68 @@ h1 {
     cursor: pointer;
 
     box-shadow:
-        0 4px 10px rgba(0, 0, 0, 0.3);
+        0 4px 10px rgba(0, 0, 0, 0.35);
 
     transition:
         transform 0.15s ease,
-        background 0.15s ease;
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
 }
 
 
-#rollButton:hover {
-    background: #ffb300;
-    transform: scale(1.04);
+/* ==========================================
+   ROLL BUTTON HOVER
+   ========================================== */
+
+#rollButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 15px rgba(0, 0, 0, 0.45);
 }
 
 
-#rollButton:active {
-    transform: scale(0.96);
+/* ==========================================
+   ROLL BUTTON ACTIVE
+   ========================================== */
+
+#rollButton:active:not(:disabled) {
+    transform: translateY(1px);
 }
 
+
+/* ==========================================
+   DISABLED BUTTON
+   ========================================== */
 
 #rollButton:disabled {
-    opacity: 0.6;
+    opacity: 0.45;
+
     cursor: not-allowed;
 }
 
 
 /* ==========================================
-   💬 MESSAGE
+   MESSAGE
    ========================================== */
 
 #message {
-    margin: 18px auto;
+    margin-top: 20px;
 
-    max-width: 90vw;
+    min-height: 45px;
 
-    font-size: 18px;
+    font-size: 16px;
+
+    line-height: 1.4;
 
     font-weight: bold;
 
-    min-height: 30px;
+    color: white;
 }
 
 
 /* ==========================================
-   🏆 VICTORY SCREEN
+   VICTORY SCREEN
    ========================================== */
 
 #victoryScreen {
@@ -555,232 +584,194 @@ h1 {
 
     inset: 0;
 
-    background:
-        rgba(0, 0, 0, 0.82);
-
     display: none;
 
     align-items: center;
     justify-content: center;
 
+    background: rgba(0, 0, 0, 0.8);
+
     z-index: 1000;
-}
 
-
-#victoryScreen > * {
-    max-width: 90%;
+    backdrop-filter: blur(5px);
 }
 
 
 /* ==========================================
-   📱 MOBILE
+   VICTORY BOX
    ========================================== */
 
-@media (max-width: 600px) {
+.victory-box {
+    width: min(90%, 450px);
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #fff8dc
+    );
+
+    color: #111;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(255, 215, 0, 0.7);
+
+    animation: victoryAppear 0.5s ease;
+}
+
+
+/* ==========================================
+   VICTORY TITLE
+   ========================================== */
+
+.victory-box h2 {
+    margin-top: 0;
+
+    font-size: 38px;
+
+    color: #d4a000;
+}
+
+
+/* ==========================================
+   WINNER TEXT
+   ========================================== */
+
+#winnerText {
+    font-size: 28px;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+}
+
+
+/* ==========================================
+   PLAY AGAIN BUTTON
+   ========================================== */
+
+#playAgainButton {
+    padding: 14px 28px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #ffd700,
+        #ff9800
+    );
+
+    color: #111;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.35);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* ==========================================
+   PLAY AGAIN HOVER
+   ========================================== */
+
+#playAgainButton:hover {
+    transform: scale(1.05);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ==========================================
+   VICTORY ANIMATION
+   ========================================== */
+
+@keyframes victoryAppear {
+
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 900px) {
+
+    .game-container {
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .board {
+        width: min(92vw, 600px);
+        height: min(92vw, 600px);
+    }
+
+    .controls {
+        width: min(92vw, 400px);
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 10px;
+    }
 
     h1 {
-        font-size: 27px;
-        margin-top: 10px;
+        font-size: 30px;
+
+        margin-bottom: 15px;
     }
 
+    .board {
+        border-width: 5px;
 
-    #board {
-        width: 95vw;
-        height: 95vw;
-
-        margin-top: 10px;
-
-        border-width: 3px;
+        border-radius: 8px;
     }
-
-
-    .cell {
-        border-width: 1px;
-    }
-
 
     .token {
-        width: 60%;
-        height: 60%;
-
-        min-width: 12px;
-        min-height: 12px;
-
         border-width: 2px;
     }
 
-
-    .safe-square::after {
-        font-size: 11px;
-    }
-
-
     #dice {
-        width: 90px;
-        height: 90px;
+        width: 70px;
+        height: 70px;
 
-        font-size: 48px;
+        font-size: 45px;
     }
 
-
-    #rollButton {
-        font-size: 17px;
-
-        padding: 13px 30px;
-    }
-
-
-    #message {
-        font-size: 15px;
-
-        padding: 0 10px;
-    }
-
-}
-
-
-/* ==========================================
-   📱 VERY SMALL PHONES
-   ========================================== */
-
-@media (max-width: 380px) {
-
-    #board {
-        width: 94vw;
-        height: 94vw;
-    }
-
-
-    .token {
-        min-width: 10px;
-        min-height: 10px;
-    }
-
-
-    #dice {
-        width: 75px;
-        height: 75px;
-
-        font-size: 40px;
-    }
-
-}
-
-/* ==========================================
-   📱 MOBILE BOARD FIX
-   ========================================== */
-
-html,
-body {
-    width: 100%;
-    min-height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    overflow-x: hidden;
-}
-
-/* Board must remain square */
-#board {
-    width: min(90vw, 600px);
-    height: min(90vw, 600px);
-
-    max-width: 600px;
-    max-height: 600px;
-
-    display: grid;
-    grid-template-columns: repeat(15, 1fr);
-    grid-template-rows: repeat(15, 1fr);
-
-    box-sizing: border-box;
-
-    margin: 10px auto;
-
-    position: relative;
-
-    /* IMPORTANT */
-    background: #ffffff;
-}
-
-/* Every board cell must have a size */
-#board .cell {
-    min-width: 0;
-    min-height: 0;
-
-    box-sizing: border-box;
-
-    position: relative;
-}
-
-/* Keep tokens visible */
-#board .token {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: absolute;
-
-    width: 70%;
-    height: 70%;
-
-    left: 15%;
-    top: 15%;
-
-    z-index: 20;
-}
-
-/* ==========================================
-   📱 SMALL PHONES
-   ========================================== */
-
-@media (max-width: 600px) {
-
-    #board {
-        width: 94vw;
-        height: 94vw;
-
-        max-width: none;
-        max-height: none;
-
-        margin: 8px auto;
-    }
-
-    #board .cell {
-        overflow: visible;
-    }
-
-    #board .token {
-        width: 72%;
-        height: 72%;
-
-        left: 14%;
-        top: 14%;
-
-        z-index: 50;
-    }
-
-}
-
-
-/* ==========================================
-   📱 VERY SMALL PHONES
-   ========================================== */
-
-@media (max-width: 380px) {
-
-    #board {
-        width: 96vw;
-        height: 96vw;
-    }
-
-    #board .token {
-        width: 70%;
-        height: 70%;
-
-        left: 15%;
-        top: 15%;
+    .controls {
+        padding: 18px;
     }
 
 }
