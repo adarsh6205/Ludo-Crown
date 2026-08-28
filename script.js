@@ -1870,7 +1870,15 @@ rollButton.onclick =
 
         const onlyToken =
             movableTokens[0];
-
+        
+        console.log(
+    "AUTO MOVE:",
+    color,
+    "Token:",
+    onlyToken + 1,
+    "Roll:",
+    number
+);
 
         // ======================================
         // ⚠️ SPECIAL RULE FOR A 6
