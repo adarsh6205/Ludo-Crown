@@ -12,7 +12,119 @@ const board = document.getElementById("board");
 const dice = document.getElementById("dice");
 const rollButton = document.getElementById("rollButton");
 const message = document.getElementById("message");
+const teamDisplay = document.getElementById("teamDisplay");
 
+// ==========================================
+// 🎮 GAME MODE
+// ==========================================
+
+let gameMode = null;
+
+// ==========================================
+// 👥 TEAM SETTINGS
+// ==========================================
+
+const teams = {
+
+    RED: "TEAM_1",
+    YELLOW: "TEAM_1",
+
+    GREEN: "TEAM_2",
+    BLUE: "TEAM_2"
+
+};
+
+// ==========================================
+// 👥 UPDATE TEAM DISPLAY
+// ==========================================
+
+function updateTeamDisplay(color) {
+
+    if (!teamDisplay) {
+        return;
+    }
+
+
+    // ======================================
+    // 4 PLAYER MODE
+    // ======================================
+
+    if (gameMode === "FOUR_PLAYERS") {
+
+        teamDisplay.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    // ======================================
+    // TEAM MODE
+    // ======================================
+
+    if (gameMode === "TEAM") {
+
+        teamDisplay.style.display =
+            "block";
+
+
+        const team =
+            teams[color];
+
+
+        const playerIcons = {
+
+            RED: "🔴",
+
+            GREEN: "🟢",
+
+            YELLOW: "🟡",
+
+            BLUE: "🔵"
+
+        };
+
+
+        const icon =
+            playerIcons[color];
+
+
+        if (team === "TEAM_1") {
+
+            teamDisplay.innerHTML =
+                "👥 TEAM 1<br>" +
+                "🔴 RED + 🟡 YELLOW<br><br>" +
+                "🎯 Current player: " +
+                icon +
+                " " +
+                color;
+
+        }
+        else {
+
+            teamDisplay.innerHTML =
+                "👥 TEAM 2<br>" +
+                "🟢 GREEN + 🔵 BLUE<br><br>" +
+                "🎯 Current player: " +
+                icon +
+                " " +
+                color;
+
+        }
+
+    }
+
+}
+
+const modeScreen =
+    document.getElementById("modeScreen");
+
+const fourPlayersButton =
+    document.getElementById("fourPlayersButton");
+
+const teamModeButton =
+    document.getElementById("teamModeButton");
 
 // ==========================================
 // PLAYERS
@@ -1280,6 +1392,31 @@ async function moveToken(
 
 }
 
+// ==========================================
+// 👥 CHECK TEAMMATE
+// ==========================================
+
+function isTeammate(
+    color,
+    opponentColor
+) {
+
+    // In 4-player mode,
+    // nobody is a teammate.
+
+    if (gameMode !== "TEAM") {
+
+        return false;
+
+    }
+
+
+    return (
+        teams[color] ===
+        teams[opponentColor]
+    );
+
+}
 
 // ==========================================
 // ⚔️ CHECK CAPTURE
@@ -1294,6 +1431,11 @@ function checkCapture(
         tokenData[color][number];
 
 
+    // ======================================
+    // HOME / HOME PATH / CROWN
+    // CANNOT CAPTURE
+    // ======================================
+
     if (
         token.position < 0 ||
         token.position >= 52
@@ -1304,6 +1446,10 @@ function checkCapture(
     }
 
 
+    // ======================================
+    // FIND GLOBAL POSITION
+    // ======================================
+
     const currentGlobalPosition =
         (
             startPosition[color] +
@@ -1311,7 +1457,9 @@ function checkCapture(
         ) % 52;
 
 
-    // SAFE
+    // ======================================
+    // SAFE SQUARE
+    // ======================================
 
     if (
         safeSquares.includes(
@@ -1328,8 +1476,16 @@ function checkCapture(
         false;
 
 
+    // ======================================
+    // CHECK ALL OTHER PLAYERS
+    // ======================================
+
     players.forEach(
         function(opponentColor) {
+
+            // ==================================
+            // DON'T CHECK OUR OWN TOKENS
+            // ==================================
 
             if (
                 opponentColor === color
@@ -1340,6 +1496,35 @@ function checkCapture(
             }
 
 
+            // ==================================
+            // TEAM MODE
+            // ==================================
+
+            if (
+                gameMode === "TEAM"
+            ) {
+
+                // ==================================
+                // SAME TEAM
+                // DO NOT CAPTURE
+                // ==================================
+
+                if (
+                    teams[color] ===
+                    teams[opponentColor]
+                ) {
+
+                    return;
+
+                }
+
+            }
+
+
+            // ==================================
+            // CHECK OPPONENT TOKENS
+            // ==================================
+
             tokenData[
                 opponentColor
             ].forEach(
@@ -1347,6 +1532,9 @@ function checkCapture(
                     opponentToken,
                     opponentNumber
                 ) {
+
+
+                    // HOME / HOME PATH / CROWN
 
                     if (
                         opponentToken.position < 0 ||
@@ -1358,6 +1546,10 @@ function checkCapture(
                     }
 
 
+                    // ==================================
+                    // OPPONENT GLOBAL POSITION
+                    // ==================================
+
                     const opponentGlobalPosition =
                         (
                             startPosition[
@@ -1366,6 +1558,10 @@ function checkCapture(
                             opponentToken.position
                         ) % 52;
 
+
+                    // ==================================
+                    // SAME SQUARE
+                    // ==================================
 
                     if (
                         currentGlobalPosition ===
@@ -1392,7 +1588,6 @@ function checkCapture(
     return captured;
 
 }
-
 
 // ==========================================
 // 🏠 SEND TOKEN HOME
@@ -1501,79 +1696,207 @@ function hasBlockade(
 
 function checkWinner(color) {
 
-    let finishedTokens =
-        0;
+    // ======================================
+    // 👤 4 PLAYERS MODE
+    // ======================================
+
+    if (gameMode === "FOUR_PLAYERS") {
+
+        let finishedTokens = 0;
+
+        tokenData[color].forEach(
+            function(token) {
+
+                if (
+                    token.position === 57
+                ) {
+
+                    finishedTokens++;
+
+                }
+
+            }
+        );
 
 
-    tokenData[color].forEach(
-        function(token) {
+        // One player gets all 4 tokens
+        // to the Crown
 
-            if (
-                token.position === 57
-            ) {
+        if (
+            finishedTokens === 4
+        ) {
 
-                finishedTokens++;
+            gameOver = true;
+
+            waitingForTokenSelection =
+                false;
+
+            clearMovableTokens();
+
+            message.textContent =
+                "🏆👑 " +
+                color +
+                " WINS THE GAME! 👑🏆";
+
+            rollButton.disabled = true;
+
+
+            const victoryScreen =
+                document.getElementById(
+                    "victoryScreen"
+                );
+
+
+            const winnerText =
+                document.getElementById(
+                    "winnerText"
+                );
+
+
+            if (winnerText) {
+
+                winnerText.textContent =
+                    "🏆 " +
+                    color +
+                    " WINS! 🏆";
 
             }
 
-        }
-    );
+
+            if (victoryScreen) {
+
+                victoryScreen.style.display =
+                    "flex";
+
+            }
 
 
-    if (
-        finishedTokens === 4
-    ) {
-
-        gameOver =
-            true;
-
-        waitingForTokenSelection =
-            false;
-
-        clearMovableTokens();
-
-
-        message.textContent =
-            "🏆👑 " +
-            color +
-            " WINS THE GAME! 👑🏆";
-
-
-        rollButton.disabled =
-            true;
-
-
-        const victoryScreen =
-            document.getElementById(
-                "victoryScreen"
-            );
-
-
-        const winnerText =
-            document.getElementById(
-                "winnerText"
-            );
-
-
-        if (winnerText) {
-
-            winnerText.textContent =
-                "🏆 " +
-                color +
-                " WINS! 🏆";
+            return true;
 
         }
 
 
-        if (victoryScreen) {
+        return false;
 
-            victoryScreen.style.display =
-                "flex";
+    }
+
+
+    // ======================================
+    // 👥 TEAM MODE
+    // ======================================
+
+    if (gameMode === "TEAM") {
+
+        const team =
+            teams[color];
+
+
+        let teamFinishedTokens = 0;
+
+
+        // ==================================
+        // COUNT ALL TOKENS OF THIS TEAM
+        // ==================================
+
+        players.forEach(
+            function(playerColor) {
+
+                if (
+                    teams[playerColor] !== team
+                ) {
+
+                    return;
+
+                }
+
+
+                tokenData[playerColor].forEach(
+                    function(token) {
+
+                        if (
+                            token.position === 57
+                        ) {
+
+                            teamFinishedTokens++;
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        // ==================================
+        // TEAM HAS 8 TOKENS
+        // ==================================
+
+        if (
+            teamFinishedTokens === 8
+        ) {
+
+            gameOver = true;
+
+            waitingForTokenSelection =
+                false;
+
+            clearMovableTokens();
+
+            message.textContent =
+                "🏆👑 " +
+                team +
+                " WINS THE GAME! 👑🏆";
+
+            rollButton.disabled = true;
+
+
+            const victoryScreen =
+                document.getElementById(
+                    "victoryScreen"
+                );
+
+
+            const winnerText =
+                document.getElementById(
+                    "winnerText"
+                );
+
+
+            if (winnerText) {
+
+                if (
+                    team === "TEAM_1"
+                ) {
+
+                    winnerText.textContent =
+                        "🏆 TEAM 1 WINS! 🏆\n🔴 RED + 🟡 YELLOW";
+
+                }
+                else {
+
+                    winnerText.textContent =
+                        "🏆 TEAM 2 WINS! 🏆\n🟢 GREEN + 🔵 BLUE";
+
+                }
+
+            }
+
+
+            if (victoryScreen) {
+
+                victoryScreen.style.display =
+                    "flex";
+
+            }
+
+
+            return true;
 
         }
 
 
-        return true;
+        return false;
 
     }
 
@@ -1581,7 +1904,6 @@ function checkWinner(color) {
     return false;
 
 }
-
 
 // ==========================================
 // WAIT
@@ -1602,6 +1924,108 @@ function wait(milliseconds) {
 
 }
 
+// ==========================================
+// 👥 TEAM MODE - CHECK FINISHED PLAYER
+// ==========================================
+
+function hasFinishedAllTokens(color) {
+
+    let finishedTokens = 0;
+
+    tokenData[color].forEach(function(token) {
+
+        if (token.position === 57) {
+            finishedTokens++;
+        }
+
+    });
+
+    return finishedTokens === 4;
+
+}
+
+
+// ==========================================
+// 👥 TEAM MODE - GET TEAMMATE
+// ==========================================
+
+function getTeammate(color) {
+
+    if (gameMode !== "TEAM") {
+        return null;
+    }
+
+    if (color === "RED") {
+        return "YELLOW";
+    }
+
+    if (color === "YELLOW") {
+        return "RED";
+    }
+
+    if (color === "GREEN") {
+        return "BLUE";
+    }
+
+    if (color === "BLUE") {
+        return "GREEN";
+    }
+
+    return null;
+
+}
+
+
+// ==========================================
+// 👥 TEAM MODE - TRANSFER TURN
+// ==========================================
+
+function checkTeamPlayerFinished(color) {
+
+    // Only works in TEAM mode
+    if (gameMode !== "TEAM") {
+        return false;
+    }
+
+    // Check whether this player finished
+    // all 4 of their tokens
+    if (!hasFinishedAllTokens(color)) {
+        return false;
+    }
+
+    const teammate = getTeammate(color);
+
+    if (!teammate) {
+        return false;
+    }
+
+    // Give the teammate the turn
+    currentPlayer =
+        players.indexOf(teammate);
+
+    selectedToken = null;
+
+    waitingForTokenSelection = false;
+
+    lastRoll = 0;
+
+    consecutiveSixes = 0;
+
+    clearMovableTokens();
+
+    message.textContent =
+        "👑 " +
+        color +
+        " finished all 4 tokens! " +
+        "Turn transferred to teammate " +
+        teammate +
+        ".";
+
+    updateTeamDisplay(teammate);
+
+    return true;
+
+}
 
 // ==========================================
 // 🔄 NEXT PLAYER
@@ -1609,8 +2033,58 @@ function wait(milliseconds) {
 
 function nextPlayer() {
 
-    currentPlayer++;
+    const currentColor =
+        players[currentPlayer];
 
+
+    // ======================================
+    // TEAM MODE
+    // ======================================
+
+    if (
+        gameMode === "TEAM" &&
+        hasFinishedAllTokens(currentColor)
+    ) {
+
+        const teammate =
+            getTeammate(currentColor);
+
+        if (teammate) {
+
+            currentPlayer =
+                players.indexOf(teammate);
+
+            selectedToken = null;
+
+            waitingForTokenSelection = false;
+
+            lastRoll = 0;
+
+            consecutiveSixes = 0;
+
+            clearMovableTokens();
+
+            message.textContent =
+                "👥 " +
+                currentColor +
+                " finished all tokens! " +
+                teammate +
+                "'s turn.";
+
+            updateTeamDisplay(teammate);
+
+            return;
+
+        }
+
+    }
+
+
+    // ======================================
+    // NORMAL NEXT PLAYER
+    // ======================================
+
+    currentPlayer++;
 
     if (
         currentPlayer >=
@@ -1621,7 +2095,6 @@ function nextPlayer() {
             0;
 
     }
-
 
     selectedToken =
         null;
@@ -1638,9 +2111,13 @@ function nextPlayer() {
     clearMovableTokens();
 
 
-    message.textContent =
-        players[currentPlayer] +
-        " player's turn. Roll the dice.";
+   message.textContent =
+    players[currentPlayer] +
+    " player's turn. Roll the dice.";
+
+updateTeamDisplay(
+    players[currentPlayer]
+);
 
 }
 
@@ -1670,16 +2147,30 @@ rollButton.onclick =
         const color =
             players[currentPlayer];
 
+// ======================================
+// 🎲 LUDO KING STYLE DICE RULE
+// ======================================
 
-        // ======================================
-        // ROLL
-        // ======================================
+let number;
 
-        const number =
-            Math.floor(
-                Math.random() * 6
-            ) + 1;
+// If player already rolled two 6s,
+// third roll can ONLY be 1-5.
 
+if (consecutiveSixes === 2) {
+
+    number =
+        Math.floor(
+            Math.random() * 5
+        ) + 1;
+
+} else {
+
+    number =
+        Math.floor(
+            Math.random() * 6
+        ) + 1;
+
+}
 
         lastRoll =
             number;
@@ -2246,7 +2737,6 @@ function playAgain() {
         }
     );
 
-
     // ======================================
     // ENABLE DICE
     // ======================================
@@ -2254,15 +2744,15 @@ function playAgain() {
     rollButton.disabled =
         false;
 
-
     message.textContent =
-        "RED player's turn. Roll the dice.";
+    "RED player's turn. Roll the dice.";
 
+updateTeamDisplay(
+    players[currentPlayer]
+);
 
-    enableTokenSelection();
-
+enableTokenSelection();
 }
-
 
 // ==========================================
 // VALIDATE GAME STATE
@@ -2374,5 +2864,47 @@ if (playAgainButton) {
 
     playAgainButton.onclick =
         playAgain;
+
+}
+
+// ==========================================
+// 🎮 GAME MODE SELECTION
+// ==========================================
+
+if (fourPlayersButton) {
+
+    fourPlayersButton.onclick =
+        function() {
+
+            gameMode = "FOUR_PLAYERS";
+
+            modeScreen.style.display =
+                "none";
+
+            message.textContent =
+                "RED player's turn. Roll the dice.";
+
+        };
+
+}
+
+if (teamModeButton) {
+
+    teamModeButton.onclick =
+        function() {
+
+            gameMode = "TEAM";
+
+            modeScreen.style.display =
+                "none";
+
+            message.textContent =
+                "🔴 RED's turn. 👥 Team 1";
+
+            updateTeamDisplay(
+                players[currentPlayer]
+            );
+
+        };
 
 }
